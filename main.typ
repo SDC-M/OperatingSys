@@ -58,15 +58,15 @@
 = *Chapitre 1: Introduction et gestion des processus*
 == Introduction
 #linebreak()
-Un système d'exploitation est un #text(red)[*logiciel intermediaire*] remplissant deux fonctions principales: 
+Un système d'exploitation est un #text(red)[*logiciel intermédiaire*] remplissant deux fonctions principales: 
 
 #list(indent: 2em)[Assurer la #text(red)[*gestion efficace*] des périphériques matériels (le clavier, l’écran, le disque, la mémoire, le processeur, ...)][Offrir aux programmes une #text(red)[*interface abstraite*] et simplifiée pour interagir avec le matériel, sans en connaître les détails techniques.]
 
 Le système d'exploitation optimise et sécurise l'utilisation des ressources en répartissant le temps *CPU* entre les différents processus on parle d'ordonnencement. 
 
-Alloue libère la mémoire utilisée pour chaque processus.
+Il alloue libère la mémoire utilisée pour chaque processus.
 
-Gère et sécurise les lectures / écritures ainsi que l'organisation des fichiers sur le disque (arborescence de fichier).
+Il gère et sécurise les lectures / écritures ainsi que l'organisation des fichiers sur le disque (arborescence de fichier).
 #linebreak()
 #linebreak()
 
@@ -85,9 +85,9 @@ Les normes sont un moyen d'assurer la portabilité ainsi que la durabilité d'un
 #linebreak()
 Créée en 1983 par Institute of Electrical and Electronics Engineers - IEEE https://posix.opengroup.org/.
 
-Standard définissant une #text(red)[*interface commune pour les systèmes d’exploitation*] de type UNIX.
+POSIX est un standard définissant une #text(red)[*interface commune pour les systèmes d’exploitation*] de type UNIX.
 
-Garantit la portabilité des applications entre différents systèmes detype UNIX.
+Il garantit la portabilité des applications entre différents systèmes detype UNIX.
 
 Pour définir le respect des normes POSIX avec GCC il suffit de définir *\_POSIX_SOURCE* pour demander le respect général de POSIX ou bien *\_POSIX_C_SOURCE* pour activer des fonctionalités spécifiques selon la version : "Année + Mois + L". 
 
@@ -162,7 +162,7 @@ Les recommandations sont donc :
     columns: (auto, auto, auto),
     inset: 10pt,
     table.header(
-      [], [*Appels Système*], [*Bibliothèque Standart*],
+      [], [*Appels Système*], [*Bibliothèque Standard*],
       [*Niveau*], [Bas niveau], [Haut niveau],
       [*Portabilité*], [Dépend du système], [Portable],
       [*Complexité*], [Plus complèxe], [Plus simple],
@@ -181,9 +181,9 @@ Les processus s'exécutent dans des espaces mémoires distincts. Ceci est très 
 #linebreak()
 === Création
 #linebreak()
-Le seul moyen que nous possèdons pour créer des processus est de passer par l'appel système ```C fork()``` qui va dupliquer le processus appelant. Au retour de cet appel système, deux processus identiques continueront d'exécuter le code à la suite de ```c fork()```. La différence essentielle entre ces deux processus est un numéro d'identification. On distingue le processus père du processus fils par leur *PID*. (processus identicatifier). Que l'on pourrait changer au cours du programme si nécéssaire avec l'appel système ```C setuid()```.
+Le seul moyen que nous possèdons pour créer des processus est de passer par l'appel système ```C fork()``` qui va dupliquer le processus appelant. Au retour de cet appel système, deux processus identiques continueront d'exécuter le code à la suite de ```c fork()```. La différence essentielle entre ces deux processus est un numéro d'identification. On distingue le processus père du processus fils par leur *PID*. (Process identifier). Que l'on pourrait changer au cours du programme si nécéssaire avec l'appel système ```C setuid()```.
 
-De plus, l'orsqu'un processus est créé il dispose d'une copie des données de son père, mais également de l'environnement de celui-ci notamment la *table des descripteurs de fichiers*. De plus chaque processus appartient à un ou plusieurs groupes *GID*.
+De plus, lorsqu'un processus est créé il dispose d'une copie des données de son père, mais également de l'environnement de celui-ci notamment la *table des descripteurs de fichiers*. De plus chaque processus appartient à un ou plusieurs groupes identifiés par un *GID*.
 
 #linebreak()
 === Cycle de vie
@@ -220,7 +220,7 @@ Il existe différents types de terminaisons d'un processus:
 
 === Sessions de processus
 #linebreak()
-Il existe finalement un dernier regroupement de processus, *les sessions*, qui réunissent divers groupes de processus. Ce sont principalement les appplications s'exécutant en *arrière plan* qui utilisent les sessions. De manière générale une session est attachée à un terminal de contrôle, celui qui a servi à la connexion de l'utilisateur. Au sein d'une session, un groupe de processus est en avant-plan. Il reçoit directement les données aisies sur le clavier du terminal, et peut afficher ses informations de sortie sur l'écran de celui-ci. Les autres groupes de processus de la session s'exécutent en arrière plan.
+Il existe finalement un dernier regroupement de processus, *les sessions*, qui réunissent divers groupes de processus. Ce sont principalement les applications s'exécutant en *arrière plan* qui utilisent les sessions. De manière générale une session est attachée à un terminal de contrôle, celui qui a servi à la connexion de l'utilisateur. Au sein d'une session, un groupe de processus est en avant-plan. Il reçoit directement les données saisies sur le clavier du terminal, et peut afficher ses informations de sortie sur l'écran de celui-ci. Les autres groupes de processus de la session s'exécutent en arrière-plan.
 
 La création d'une session s'effectue par l'appel système ```C setsid()```. 
 
@@ -228,7 +228,7 @@ La création d'une session s'effectue par l'appel système ```C setsid()```.
 
 === Recouvrement des processus
 #linebreak()
-Le recouvrement d'un processus dégine le remplacement de son image mémoire par un nouveau programme. Il est réalisé via la famille d'appels système *exec*. Le recouvrement implique donc que nous conservons la même entrée dans la table des processus. Les appels système sont:
+Le recouvrement d'un processus désigne le remplacement de son image mémoire par un nouveau programme. Il est réalisé via la famille d'appels système *exec*. Le recouvrement implique donc que nous conservons la même entrée dans la table des processus. Les appels système sont:
 
 #linebreak()
 
@@ -256,7 +256,7 @@ Les noms des fonctions exec sont construits avec une combinaison de suffixes, ch
 
 == Ordonnancement
 #linebreak()
-L'ordonnancement des pricessus un principe fondamental de la matière, en effet,  à un instant donnée, plusieurs processus peuvent être en concurrence pour l'utilisation du processeur. Il faut donc choisir quel processus sera executé et à quel moment, cette décision est prise par *l'ordonnenceur* qui lui même suit une *politique d'ordonnancement*.
+L'ordonnancement des processus un principe fondamental de la matière, en effet,  à un instant donnée, plusieurs processus peuvent être en concurrence pour l'utilisation du processeur. Il faut donc choisir quel processus sera executé et à quel moment, cette décision est prise par *l'ordonnenceur* qui lui même suit une *politique d'ordonnancement*.
 
 === Ordonnancement préemptif vs non préemptif
 #linebreak()
@@ -538,7 +538,7 @@ Sous linux il est possible de définir la politique d'ordonnancement grâce à c
 ```
 == Les threads POSIX
 #linebreak()
-Un *thread* (ou « fil d’exézcution ») parfois appelés « *processus légers* », est l’unité fondamentale que le système d’exploitation planifie sur
+Un *thread* (ou « fil d’exécution ») parfois appelés « *processus légers* », est l’unité fondamentale que le système d’exploitation planifie sur
 un processeur. Il correspond à une séquence d’instructions qui s’exécute de manière indépendante en partageant l’espace d’adressage d’un processus.
 
 Un même processus peut contenir un ou plusieurs threads, concurrents (sur un cœur) ou parallèle (sur plusieurs cœurs).
@@ -603,7 +603,7 @@ Cependant ils manquent de parallélisme réel, en effet un ULT bloquant bloque t
 
 Threads gérés directement par le système d’exploitation. Le noyau planifie leur exécution.
 
-Le noyau peut planifier différents threads sur différents cœurs CPU. Un thread bloqué (e.g., sur une E/S) n’affecte pas les autres. ccès direct aux services et ressources du noyau. De plus ils bénéficient des politiques de scheduling du noyau.
+Le noyau peut planifier différents threads sur différents cœurs CPU. Un thread bloqué (e.g., sur une E/S) n’affecte pas les autres. accès direct aux services et ressources du noyau. De plus ils bénéficient des politiques de scheduling du noyau.
 
 Cependant la création, commutation et destructions sont plus lentes (appels système). L'API dépend souvent de l'OS et chaque thread nécéssite des structures de données dans le noyeau.
 
@@ -613,7 +613,7 @@ Cependant la création, commutation et destructions sont plus lentes (appels sys
 #linebreak()
 
 ```c
-nt pthread_create ( pthread_t * thread,
+int pthread_create ( pthread_t * thread,
   const pthread_attr_t * attr,
   void *(* start_routine ) ( void *),
   void * arg );
@@ -762,7 +762,7 @@ Il faut néanmoins faire attention aux variables auutomatiques qui seraient init
 = *Chapitre 2: Système de gestion de fichiers (SGF)*
 #linebreak()
 
-*#text(fill: red, "Concept fondamental : Sur Linux tout est fichier !")*
+*#text(fill: red, "Concept fondamental : Sur Unix tout est fichier !")*
 
 Un *système de fichiers* est la structure logique qui organise et gère le stockage des données sur un support physique (disque dur, SSD, clé USB). C’est le coeur du système qui gère le stockage, l’accès et la modification des fichiers.
 
@@ -788,7 +788,7 @@ Un *système de fichiers* est la structure logique qui organise et gère le stoc
     table.header(
       [*Système de Fichiers*], [*Système de Gestion de Fichiers*],
       [C'est la structure *logique*], [C'est la partie *logicielle* composante du noyeau],
-      [Définit comment les fichiers sont organisés (arborescence)], [Gère toutes les opérations:  créer, lire, sipprimer..],
+      [Définit comment les fichiers sont organisés (arborescence)], [Gère toutes les opérations:  créer, lire, supprimer..],
       [Exemple: le format ext4 de votre disque dur], [Assure la cohérence des données et les permissions],
     ),
     stroke: 1pt
@@ -939,7 +939,7 @@ int ftruncate(int fd, off_t length);
 
 Les descripteurs de fichiers sont des entiers identifiant des fichiers / ressources ouvertes, la plage typique sous Linux est de 0 à 1024. Chaque processus possède sa propre table des descripteurs comme montrer ci-dessus.
 
-Remarque: Les descripteurs peuvent égalemment representer des :
+Remarque: Les descripteurs peuvent égalemment représenter des :
 - Tubes (pipes)
 - Sockets réseau
 - Périphériques
@@ -968,31 +968,31 @@ Les modes d'ouverture :
       [*Mode de base*], [*Attributs de création*], [*Attributs d'état*],
       [O_RDONLY], [O_CREAT], [O_APPEND],
       [O_WRONLY], [O_EXCL], [O_SYNC],
-      [O_RDWR], [O_TRUNc], []
+      [O_RDWR], [O_TRUNC], []
     ),
     stroke: 1pt
   )
 ]
 
 En ce qui concerne le mode d'ouverture il est à noté que nous avons un filtrage par *umask*. L'opération réalisée est donc le suivant:
-#text(fill: red, "Permissions = mode & \~umask").
+#text(fill: red, "Permissions = mode & ~umask").
 
 #linebreak()
 === L'effet de l'appel système open():
 #linebreak()
 
 #underline[Sur la table des descripteurs:]
-- Ajoute une ntrée avec le plus petit descripteur disponible
+- Ajoute une entrée avec le plus petit descripteur disponible
 - Pointe vers une entrée de la table des fichiers ouverts 
 
 #underline[Sur la table des fichiers ouverts:]
 - Crée toujours une nouvelle entrée même si le fichier est déjà ouvert
 - Chaque open() crée une entrée indépendante
-- Stocke position = 0 ou taille fichier (si O_APPEND), flags, pointeur vers inode
+- Initialise la position à 0 ou à la fin du fichier si O_APPEND et stocke les flags, pointeur vers inode
 
 #underline[Sur la table des i-noeuds:]
 - Charge l'inoeud en mémoire s'il n'est pas déjà présent
-- Incrémente le compteur de référence ) chaque open()
+- Incrémente le compteur de référence à chaque open()
 - Met à jour st_atime sur accès.
 
 #linebreak()
@@ -1066,15 +1066,15 @@ Nous disposons de deux fonctions pour changer de répertoire:
 #include <unistd.h>
 
 int main() {
-  char cvd[1024];
-  getcvd(cvd, sizeof(cvd));
-  printf("Avant: %s\n", cvd);
+  char cwd[1024];
+  getcwd(cwd, sizeof(cwd));
+  printf("Avant: %s\n", cwd);
   if (chdir("/tmp") == -1) {
     perror("chdir");
     return EXIT_FAILURE;
   }
-  getcvd(cvd, sizeof(cvd));
-  printf("Apres: %s\n", cvd);
+  getcwd(cwd, sizeof(cwd));
+  printf("Apres: %s\n", cwd);
   return EXIT_SUCCESS;
 } 
 ```
@@ -1087,9 +1087,9 @@ et donc getcwd() pour récupérer le répertoire courant.
 #linebreak()
 
 Fonctions principales:
-- #text(fill: red, "Aopendir()") : ouvre un flux répertoire
-- #text(fill: red, "Areaddir()") : lit une entrée
-- #text(fill: red, "Aclosedir()") : ferme le flux
+- #text(fill: red, "opendir()") : ouvre un flux répertoire
+- #text(fill: red, "readdir()") : lit une entrée
+- #text(fill: red, "closedir()") : ferme le flux
 
 #linebreak()
 
@@ -1102,9 +1102,9 @@ struct dirent {
 ```
 #linebreak()
 Fonctions avancées:
-- #text(fill: red, "rewinddir()") : retour au début
+- #text(fill: red, "rewinddir") : retour au début
 - #text(fill: red, "telldir") : position courante
-- #text(fill: red, "scandir()") : lecture avec filtrage
+- #text(fill: red, "scandir") : lecture avec filtrage
 
 #linebreak()
 
@@ -1202,7 +1202,7 @@ Un tube est *un canal de communication unidirectionnel* qui relie un processus �
   )
 ]
 
-*#text(fill: red, "Les données dans le tube sont volatiles et stockées uniquement dans les buers noyau.")*
+*#text(fill: red, "Les données dans le tube sont volatiles et stockées uniquement dans les buffers noyau.")*
 
 Exemple shell:
 ```sh
@@ -1226,11 +1226,10 @@ Nous utilisons l'appel système `pipe()`:
 int tube[2]
 int pipe(int tube[2])
 ```
-Description : Créer un tube et retourne deux descripteurs de fichiers :
-- tube[0] : Extrémité de lecture.
-
-- tube[1] : Extrémité d'écriture.
- Retourne 0 en cas de succès, -1 en cas d'erreur.
+Description : Créer un tube et retourne deux descripteurs de fichiers :
+  - tube[0] : Extrémité de lecture.
+  - tube[1] : Extrémité d'écriture.
+Retourne 0 en cas de succès, -1 en cas d'erreur.
 
 #underline[Effet sur les tables système]:
 
@@ -1247,10 +1246,10 @@ Séquence d'exécution de pipe():
 1. Allocation inode virtuel dans la table des inodes en mémoire
 2. Création structure pipe_inode_info en mémoire
 3. Lien inode vers structure pipe
-4. Création deux entrées(resp. Read et Write) dans la table des chiers
-5. Lien chier vers inode virtuel
+4. Création deux entrées(resp. Read et Write) dans la table des fichiers
+5. Lien fichier vers inode virtuel
 6. Allocation de deux descripteurs dans le processus
-7. Lien descripteurs vers entrée chiers respectives
+7. Lien descripteurs vers entrée fichiers respectives
 8. Initialisation compteurs (readers=1, writers=1)
 
 #linebreak()
@@ -1313,21 +1312,18 @@ int mkfifo(const char *pathname, mode_t mode);
 int open(const char *pathname, int flags);
 ```
 #linebreak()
-Description :
-
-- Crée un tube nommé pathname dans le système de chiers avec les permissions mode. 
+Description:
+- Crée un tube de chemin pathname dans le système de fichiers avec les permissions mode. 
 - Retourne 0 en cas de succès, -1 en cas d'erreur.
 
-L'appel open pour un tube nommé en mode non-bloquant (O_NONBLOCK) diffère selon le mode lecture ou écriture:
+L'appel open pour un tube nommé en mode non-bloquant (O_NONBLOCK) diffère selon le mode lecture ou écriture:
 
-Lecture (open("montube", O_RDONLY | O_NONBLOCK)): 
+Lecture (open("montube", O_RDONLY | O_NONBLOCK)):
 - Ouvre immédiatement, retourne un descripteur même sans écrivain.
-
 - Raison : Un lecteur peut attendre des données ou gérer leur absence (read retourne EAGAIN ou 0 pour EOF). Permet l'asynchronisme.
 
-#linebreak()
-Écriture (open("montube", O_WRONLY | O_NONBLOCK)) :
-
+#linebreak()
+Écriture (open("montube", O_WRONLY | O_NONBLOCK)):
 - Ouvre immédiatement, mais échoue avec ENXIO si aucun lecteur.
 - Raison : Écrire sans lecteur est inutile (mènerait à EPIPE). ENXIO signale tôt l'absence de communication possible.
 
@@ -1348,7 +1344,7 @@ L'appel open pour un tube nommé en mode non-bloquant (O_NONBLOCK) diffère sel
   Multiple écrivains possibles sur un même tube
   Multiple lecteurs possibles sur un même tube
   Un processus peut être lecteur et écrivain
-  Les rôles sont dénis par les descripteurs ouverts  
+  Les rôles sont définis par les descripteurs ouverts  
   "
   )
 ]
@@ -1364,9 +1360,8 @@ Pour lire nous utilisons l'appel système `read()`
 ssize_t read (int fd, void *buf, size_t count);
 ```
 #linebreak()
-Description :
-
-Lit jusqu'à count octets depuis le descripteur fd (tube[0]) dans le buffer buf.
+Description:
+Lit jusqu'à count octets depuis le descripteur fd (tube[0]) dans le buffer buf.
 Retourne le nombre d'octets lus (peut être < count), 0 pour EOF, ou -1 en cas d'erreur
 
 *#text(fill: red, "Attention le comportement diffère selon le mode!")*
