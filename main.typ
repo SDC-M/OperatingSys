@@ -339,7 +339,7 @@ Pour illustrer ces différentes politiques d'ordonnancement nous allons prendre 
       [*C*], [*#text(fill: red, "4")*], [*#text(fill: blue, "4")*], [*13 - 4 = 9*], [*13 - 4 = 9*], [*9 - 4 = 5*],
       [*D*], [*#text(fill: red, "6")*], [*#text(fill: blue, "5")*], [*18 - 6 = 12*], [*18 - 6 = 12*], [*12 - 5 = 7*],
       [*E*], [*#text(fill: red, "8")*], [*#text(fill: blue, "2")*], [*20 - 8 = 12*], [*20 - 8 = 12*], [*12 - 2 = 10*],
-      [*#text(fill: purple, "Moyenne")*], [], [], [*#text(fill: purple, "4,6")*], [#text(fill: purple, "8,6")], [*#text(fill: purple, "4,6")*],
+      [*#text(fill: purple, "Moyenne")*], [], [], [*#text(fill: purple, "8,6")*], [#text(fill: purple, "8,6")], [*#text(fill: purple, "4,6")*],
     ),
     stroke: 1pt
   )
@@ -435,7 +435,7 @@ Liste du plus court à l'instant x = ?:
     inset: 9pt,
     table.header(
       [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*],[*attente*],
-      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*2 - 0 = 2*], [*2 - 2 = 0*], 
+      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*13 - 2 = 11*], [*13 - 3 = 10*], 
       [*B*], [*#text(fill: red, "2")*], [*#text(fill: blue, "6")*], [*2 - 2 = 0*], [*19 - 2 = 17*], [*17 - 6 = 11*],
       [*C*], [*#text(fill: red, "4")*], [*#text(fill: blue, "4")*], [*4 - 4 = 0*], [*15 - 4 = 11*], [*11 - 4 = 7*],
       [*D*], [*#text(fill: red, "6")*], [*#text(fill: blue, "5")*], [*6 - 6 = 0*], [*20 - 6 = 14*], [*14 - 5 = 9*],
