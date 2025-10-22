@@ -64,7 +64,7 @@ Un système d'exploitation est un #text(red)[*logiciel intermédiaire*] rempliss
 
 Le système d'exploitation optimise et sécurise l'utilisation des ressources en répartissant le temps *CPU* entre les différents processus on parle d'ordonnencement. 
 
-Il alloue libère la mémoire utilisée pour chaque processus.
+Il alloue et libère la mémoire utilisée pour chaque processus.
 
 Il gère et sécurise les lectures / écritures ainsi que l'organisation des fichiers sur le disque (arborescence de fichier).
 #linebreak()
@@ -104,7 +104,7 @@ Pour définir le respect de la norme SUS avec GCC il suffit de définir *\_XOPEN
 #linebreak()
 
 == Les appels systèmes
-== Fonctionnement
+=== Fonctionnement
 #linebreak()
 Un appel système est une interface entre un programme utilisateur et le noyau du système
 d’exploitation. Il donne accès à des ressources protégées (fichiers, réseau, mémoire, ...) Il s'exécute en mode noyau pour réaliser des tâches privilligiées. 
