@@ -11,8 +11,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Rendering
+      - name: Installating typst
         uses: typst-community/setup-typst@v4
+
+      - names: Rendering
         run: typst compile main.typ main.pdf
 
       - name: Upload PDF file
