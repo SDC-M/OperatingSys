@@ -435,7 +435,7 @@ Liste du plus court à l'instant x = ?:
     inset: 9pt,
     table.header(
       [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*],[*attente*],
-      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*13 - 2 = 11*], [*13 - 3 = 10*], 
+      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*13 - 0 = 13*], [*13 - 3 = 10*], 
       [*B*], [*#text(fill: red, "2")*], [*#text(fill: blue, "6")*], [*2 - 2 = 0*], [*19 - 2 = 17*], [*17 - 6 = 11*],
       [*C*], [*#text(fill: red, "4")*], [*#text(fill: blue, "4")*], [*4 - 4 = 0*], [*15 - 4 = 11*], [*11 - 4 = 7*],
       [*D*], [*#text(fill: red, "6")*], [*#text(fill: blue, "5")*], [*6 - 6 = 0*], [*20 - 6 = 14*], [*14 - 5 = 9*],
