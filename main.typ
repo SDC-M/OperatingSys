@@ -24,8 +24,8 @@
   abstract: [#emph[Ceci est un support non officiel, qui a pour but de regrouper l'ensemble des notions vues en cours d'introduction aux systèmes d'exploitation dispensé en deuxième année de licence informatique à l'UFR sciences et techniques du Madrillet par le professeur *ZIADI DJELLOUL* Il est non exhaustif et collaboratif. 
   Ce document est à jour pour l'année universitaire *2025-2026*. Pour toute suggestion, ouvrez une issue sur le dépôt GitHub. Merci aux contributeurs : #underline[#link("https://github.com/SDC-M/Introduction-aux-syst-mes-d-exploitation.git")] ]
   Le support se décompose en deux parties. Premièrement des rappels de cours avec des exemples commentés ainsi que des définitions puis une partie avec des exercices corrigés.],
-  date: datetime(year: 2025, month: 10, day: 9),
-  date-format: "9 Octobre 2025",
+  date: datetime(year: 2025, month: 10, day: 24),
+  date-format: "24 Octobre 2025",
   chapter-pagebreak: false,
   figure-index: (enabled: false),
   table-index: (enabled: true),
@@ -62,7 +62,7 @@ Un système d'exploitation est un #text(red)[*logiciel intermédiaire*] rempliss
 
 #list(indent: 2em)[Assurer la #text(red)[*gestion efficace*] des périphériques matériels (le clavier, l’écran, le disque, la mémoire, le processeur, ...)][Offrir aux programmes une #text(red)[*interface abstraite*] et simplifiée pour interagir avec le matériel, sans en connaître les détails techniques.]
 
-Le système d'exploitation optimise et sécurise l'utilisation des ressources en répartissant le temps *CPU* entre les différents processus on parle d'ordonnencement. 
+Le système d'exploitation optimise et sécurise l'utilisation des ressources en répartissant le temps *CPU* entre les différents processus : on parle d'ordonnencement. 
 
 Il alloue et libère la mémoire utilisée pour chaque processus.
 
@@ -73,7 +73,7 @@ Il gère et sécurise les lectures / écritures ainsi que l'organisation des fic
 === Types de systèmes d'exploitation
 #linebreak()
 
-#list(indent: 2em)[*Mainframes* : traitement de très gros volumes de données (ex. IBM z/OS).][*Serveurs* : gestion des services réseaux (ex. Linux, Windows Server).][*Multiprocesseurs* : exploitation de plusieurs CPU en parallèle.][*Personnels* : ordinateurs individuels, interface conviviale (ex.Windows, macOS).][*Temps réel* : respect de délais stricts, applications critiques (ex.VxWorks).][*Embarqués* : systèmes pour appareils spécifiques (ex. Android, FreeRTOS).][*Cartes à puce* : ultra-légers et sécurisés (ex. Java Card).]
+#list(indent: 2em)[*Mainframes* : traitement de très gros volumes de données (ex. IBM z/OS).][*Serveurs* : gestion des services réseaux (ex. Linux, Windows Server).][*Multiprocesseurs* : exploitation de plusieurs CPU en parallèle.][*Personnels* : ordinateurs individuels, interface conviviale (ex. Windows, macOS).][*Temps réel* : respect de délais stricts, applications critiques (ex. VxWorks).][*Embarqués* : systèmes pour appareils spécifiques (ex. Android, FreeRTOS).][*Cartes à puce* : ultra-légers et sécurisés (ex. Java Card).]
 
 == Les normes
 #linebreak()
@@ -87,9 +87,9 @@ Créée en 1983 par Institute of Electrical and Electronics Engineers - IEEE htt
 
 POSIX est un standard définissant une #text(red)[*interface commune pour les systèmes d’exploitation*] de type UNIX.
 
-Il garantit la portabilité des applications entre différents systèmes detype UNIX.
+Il garantit la portabilité des applications entre différents systèmes de type UNIX.
 
-Pour définir le respect des normes POSIX avec GCC il suffit de définir *\_POSIX_SOURCE* pour demander le respect général de POSIX ou bien *\_POSIX_C_SOURCE* pour activer des fonctionalités spécifiques selon la version : "Année + Mois + L". 
+Pour définir le respect des normes POSIX avec GCC, il suffit de définir *\_POSIX_SOURCE* pour demander le respect général de POSIX ou bien *\_POSIX_C_SOURCE* pour activer des fonctionalités spécifiques selon la version : "Année + Mois + L". 
 
 #linebreak()
 
@@ -99,7 +99,7 @@ Pour définir le respect des normes POSIX avec GCC il suffit de définir *\_POSI
 
 Fin des années 1990 : POSIX devient un sous-ensemble de la SUS. Tous les systèmes UNIX certifiés respectent POSIX.
 
-Pour définir le respect de la norme SUS avec GCC il suffit de définir *\_XOPEN_SOURCE* pour demander le respect général de SUS. Le chiffre "X" correspondant à l aversion majeure de SUS souhaitée. Vous retrouverez l'ensemble des informations dans le manuel avec la commande : ```bash man 7 standards```
+Pour définir le respect de la norme SUS avec GCC, il suffit de définir *\_XOPEN_SOURCE* pour demander le respect général de SUS. Le chiffre "X" correspondant à la version majeure de SUS souhaitée. Vous retrouverez l'ensemble des informations dans le manuel avec la commande : ```bash man 7 standards```
 
 #linebreak()
 
@@ -142,9 +142,9 @@ Gestion des erreurs
     inset: 10pt,
     table.header(
       [*Fonction*], [*POSIX*], [*Thread-safe*], [*Recommandation*],
-      [perror()], [Oui], [Oui], [exemples simples],
+      [perror()], [Oui], [Oui], [Exemples simples],
       [strerror()], [Oui], [Non], [À éviter en multithread],
-      [strerror_r()], [Oui], [Oui], [Préfèrée en multithread]
+      [strerror_r()], [Oui], [Oui], [Préférée en multithread]
     ),
     stroke: 1pt
   )
@@ -152,10 +152,10 @@ Gestion des erreurs
 #linebreak()
 Les recommandations sont donc :
 - Programmes simples : perror() ou stererror()
-- Programmes modernes / multithread : strerrors_r() (POSIX)
+- Programmes modernes / multithread : strerror_r() (POSIX)
 #linebreak()
 
-=== appels sytèmes vs bibliothèque standard
+=== Appels système vs bibliothèque standard
 #linebreak()
 #align(center)[
   #table(
@@ -165,7 +165,7 @@ Les recommandations sont donc :
       [], [*Appels Système*], [*Bibliothèque Standard*],
       [*Niveau*], [Bas niveau], [Haut niveau],
       [*Portabilité*], [Dépend du système], [Portable],
-      [*Complexité*], [Plus complèxe], [Plus simple],
+      [*Complexité*], [Plus complexe], [Plus simple],
       [*Exemple*], [write], [printf]
     ),
     stroke: 1pt
@@ -174,16 +174,16 @@ Les recommandations sont donc :
 #linebreak()
 == Les processus
 #linebreak()
-L'un des premiers choix de conception que nous devons faire lors de la conception d'une application multitâches sera : *processus* ou *threads*. Chacune des approches possède son lot d'avantages et d'inconvéniants.
+L'un des premiers choix de conception que nous devons faire lors de la conception d'une application multitâche sera : *processus* ou *threads*. Chacune des approches possède son lot d'avantages et d'inconvéniants.
 
 Les processus s'exécutent dans des espaces mémoires distincts. Ceci est très important : *chaque processus dispose d'une zone de mémoire totalement indépendante et protégée des autres processus.*
 
 #linebreak()
 === Création
 #linebreak()
-Le seul moyen que nous possèdons pour créer des processus est de passer par l'appel système ```C fork()``` qui va dupliquer le processus appelant. Au retour de cet appel système, deux processus identiques continueront d'exécuter le code à la suite de ```c fork()```. La différence essentielle entre ces deux processus est un numéro d'identification. On distingue le processus père du processus fils par leur *PID*. (Process identifier). Que l'on pourrait changer au cours du programme si nécéssaire avec l'appel système ```C setuid()```.
+Le seul moyen que nous possédons pour créer des processus est de passer par l'appel système ```C fork()``` qui va dupliquer le processus appelant. Au retour de cet appel système, deux processus identiques continueront d'exécuter le code à la suite de ```c fork()```. La différence essentielle entre ces deux processus est un numéro d'identification. On distingue le processus père du processus fils par leur *PID*. (Process identifier), que l'on pourrait changer au cours du programme si nécessaire avec l'appel système ```C setuid()```.
 
-De plus, lorsqu'un processus est créé il dispose d'une copie des données de son père, mais également de l'environnement de celui-ci notamment la *table des descripteurs de fichiers*. De plus chaque processus appartient à un ou plusieurs groupes identifiés par un *GID*.
+De plus, lorsqu'un processus est créé, il dispose d'une copie des données de son père, mais également de l'environnement de celui-ci, notamment la *table des descripteurs de fichiers*. De plus, chaque processus appartient à un ou plusieurs groupes identifiés par un *GID*.
 
 #linebreak()
 === Cycle de vie
@@ -207,20 +207,20 @@ De plus, lorsqu'un processus est créé il dispose d'une copie des données de s
 
 === Terminaison
 #linebreak()
-Il existe différents types de terminaisons d'un processus:
+Il existe différents types de terminaisons d'un processus :
 
-- Arrêt normal (volontaire) Le programme s’exécute jusqu’à la fin prévue. Exemple : retour de main() avec *return 0*;
+- Arrêt normal (volontaire) : Le programme s’exécute jusqu’à la fin prévue. Exemple : retour de main() avec *return 0*;
 
-- Arrêt suite à une erreur (volontaire) Le programme détecte une erreur et décide de se terminer. Exemple : appel à *exit(EXIT_FAILURE)*;
+- Arrêt suite à une erreur (volontaire) : Le programme détecte une erreur et décide de se terminer. Exemple : appel à *exit(EXIT_FAILURE)*;
 
-- Arrêt pour erreur fatale (involontaire) Le système arrête le processus à cause d’une faute grave. Exemple :*segmentation fault*.
+- Arrêt pour erreur fatale (involontaire) : Le système arrête le processus à cause d’une faute grave. Exemple : *segmentation fault*.
 
-- Arrêt forcé par un autre processus (involontaire) Un signal externe met fin au processus. Exemple : *kill -9 PID*.
+- Arrêt forcé par un autre processus (involontaire) : Un signal externe met fin au processus. Exemple : *kill -9 PID*.
 #linebreak()
 
 === Sessions de processus
 #linebreak()
-Il existe finalement un dernier regroupement de processus, *les sessions*, qui réunissent divers groupes de processus. Ce sont principalement les applications s'exécutant en *arrière plan* qui utilisent les sessions. De manière générale une session est attachée à un terminal de contrôle, celui qui a servi à la connexion de l'utilisateur. Au sein d'une session, un groupe de processus est en avant-plan. Il reçoit directement les données saisies sur le clavier du terminal, et peut afficher ses informations de sortie sur l'écran de celui-ci. Les autres groupes de processus de la session s'exécutent en arrière-plan.
+Il existe finalement un dernier regroupement de processus, *les sessions*, qui réunissent divers groupes de processus. Ce sont principalement les applications s'exécutant en *arrière-plan* qui utilisent les sessions. De manière générale une session est attachée à un terminal de contrôle, celui qui a servi à la connexion de l'utilisateur. Au sein d'une session, un groupe de processus est en avant-plan. Il reçoit directement les données saisies sur le clavier du terminal, et peut afficher ses informations de sortie sur l'écran de celui-ci. Les autres groupes de processus de la session s'exécutent en arrière-plan.
 
 La création d'une session s'effectue par l'appel système ```C setsid()```. 
 
@@ -242,7 +242,7 @@ Le recouvrement d'un processus désigne le remplacement de son image mémoire pa
 Ces fonctions sont des variantes de l’appel système execve, offrant
 différentes façons de passer les arguments et l’environnement.
 
-Les noms des fonctions exec sont construits avec une combinaison de suffixes, chacun ayant une signification précise:
+Les noms des fonctions exec sont construits avec une combinaison de suffixes, chacun ayant une signification précise :
 
 #linebreak()
 - *l (List)* : Les arguments de la ligne de commande sont passés sous forme d’une liste de paramètres individuels à la fonction.
@@ -256,7 +256,7 @@ Les noms des fonctions exec sont construits avec une combinaison de suffixes, ch
 
 == Ordonnancement
 #linebreak()
-L'ordonnancement des processus un principe fondamental de la matière, en effet,  à un instant donnée, plusieurs processus peuvent être en concurrence pour l'utilisation du processeur. Il faut donc choisir quel processus sera executé et à quel moment, cette décision est prise par *l'ordonnenceur* qui lui même suit une *politique d'ordonnancement*.
+L'ordonnancement des processus est un principe fondamental de la matière. En effet, à un instant donnée, plusieurs processus peuvent être en concurrence pour l'utilisation du processeur. Il faut donc choisir quel processus sera executé et à quel moment, cette décision est prise par *l'ordonnenceur* qui lui même suit une *politique d'ordonnancement*.
 
 === Ordonnancement préemptif vs non préemptif
 #linebreak()
@@ -273,16 +273,16 @@ L'ordonnancement des processus un principe fondamental de la matière, en effet,
 === Mesures de performance
 #linebreak()
 
-Pour mesurer la performance des différentes politiques on utilise différents indicateurs:
+Pour mesurer la performance des différentes politiques on utilise différents indicateurs :
 
 
 #linebreak()
 
-- Temps de réponse: Le temps écoulé entre la soumission d’un processus (son arrivée dans la file d’attente) et le moment où il commence à s’exécuter pour la première fois. *Temps de réponse = Temps de première exécution - Temps d’arrivée*
+- Temps de réponse : Le temps écoulé entre la soumission d’un processus (son arrivée dans la file d’attente) et le moment où il commence à s’exécuter pour la première fois. *Temps de réponse = Temps de première exécution - Temps d’arrivée*
 
-- Temps de rotation: Le temps total écoulé entre la soumission d’un processus et son achèvement complet. *Temps de rotation = Temps de fin - Temps d’arrivée*
+- Temps de rotation : Le temps total écoulé entre la soumission d’un processus et son achèvement complet. *Temps de rotation = Temps de fin - Temps d’arrivée*
 
-- Temps d’attente: La somme de toutes les périodes pendant lesquelles un processus est prêt à s’exécuter et attend dans la file d’attente (Prêt). *Temps d’attente = Temps de rotation - Temps d’exécution CPU total.*
+- Temps d’attente : La somme de toutes les périodes pendant lesquelles un processus est prêt à s’exécuter et attend dans la file d’attente (Prêt). *Temps d’attente = Temps de rotation - Temps d’exécution CPU total.*
 
 #linebreak()
 
@@ -541,14 +541,14 @@ Sous linux il est possible de définir la politique d'ordonnancement grâce à c
 Un *thread* (ou « fil d’exécution ») parfois appelés « *processus légers* », est l’unité fondamentale que le système d’exploitation planifie sur
 un processeur. Il correspond à une séquence d’instructions qui s’exécute de manière indépendante en partageant l’espace d’adressage d’un processus.
 
-Un même processus peut contenir un ou plusieurs threads, concurrents (sur un cœur) ou parallèle (sur plusieurs cœurs).
+Un même processus peut contenir un ou plusieurs threads, concurrents (sur un cœur) ou en parallèle (sur plusieurs cœurs).
 
-Chaque thread possède ses composants privés indispensables à son exécution:
+Chaque thread possède ses composants privés indispensables à son exécution :
 - sa *propre pile d’exécution* (pour les variables locales et les appels de fonctions)
 - son *contexte d’exécution* (état des registres du processeur et valeur du compteur ordinal)
 
 #linebreak()
-*#sym.plus.triangle #text(fill: red, "Attention: Tous les threads partagent la même mémoire globale!")*
+*#sym.plus.triangle #text(fill: red, "Attention : Tous les threads partagent la même mémoire globale!")*
 
 #image("img/I-noeud.svg")
 #align(right)[
@@ -566,7 +566,7 @@ Chaque thread possède ses composants privés indispensables à son exécution:
     table.header(
       [*Processus*], [*Threads*],
       [Espace mémoire séparé], [Espace mémoire partagé],
-      [Fichiers ouverts séparé], [Fichiers ouverts partagés],
+      [Fichiers ouverts séparés], [Fichiers ouverts partagés],
       [Contexte d'exécution complet], [Contexte d'exécution minimal], 
       [Communication inter-processus], [Communication directe],
     ),
@@ -590,22 +590,22 @@ Chaque thread possède ses composants privés indispensables à son exécution:
 === Types de threads
 #linebreak()
 
-Il existe deux modèles principaux de gestion des threads:
-1. Threads implantés dans l'espace utilisateur: *User-level Threads (ULTs)*
+Il existe deux modèles principaux de gestion des threads :
+1.  Threads implantés dans l'espace utilisateur: *User-level Threads (ULTs)*
 
 Threads gérés entièrement par une bibliothèque au niveau de l’application (espace utilisateur). Le noyau OS n’a pas connaissance de leur existence.
 
-Ils ont pour avantage d'être très performant, car pas d'appel système, de plus ils sont portables car implémenter par une bibliothèque donc indépendante du noyau OS.
+Ils ont pour avantage d'être très performant, car pas d'appel système. De plus, ils sont portables car implémentés par une bibliothèque donc indépendante du noyau OS.
 
-Cependant ils manquent de parallélisme réel, en effet un ULT bloquant bloque tous les threads du processus, de plus le scheduleur OS ne voir qu'un seul processus, ne peut pas répartir les threads sur plusieurs coeurs.
+Cependant, ils manquent de parallélisme réel : en effet, un ULT bloquant bloque tous les threads du processus. De plus, le scheduleur OS ne va voir qu'un seul processus, il ne peut pas répartir les threads sur plusieurs coeurs.
 
-2.Threads implantés dans le noyau *Kernel-level Threads (KLTs)*
+2.  Threads implantés dans le noyau *Kernel-level Threads (KLTs)*
 
 Threads gérés directement par le système d’exploitation. Le noyau planifie leur exécution.
 
-Le noyau peut planifier différents threads sur différents cœurs CPU. Un thread bloqué (e.g., sur une E/S) n’affecte pas les autres. accès direct aux services et ressources du noyau. De plus ils bénéficient des politiques de scheduling du noyau.
+Le noyau peut planifier différents threads sur différents cœurs CPU. Un thread bloqué (e.g., sur une E/S) n’affecte pas les autres : accès direct aux services et ressources du noyau. De plus, ils bénéficient des politiques de scheduling du noyau.
 
-Cependant la création, commutation et destructions sont plus lentes (appels système). L'API dépend souvent de l'OS et chaque thread nécéssite des structures de données dans le noyeau.
+Cependant, la création, commutation et destructions sont plus lentes (appels système). L'API dépend souvent de l'OS et chaque thread nécéssite des structures de données dans le noyau.
 
 #linebreak()
 
@@ -629,25 +629,25 @@ int pthread_create ( pthread_t * thread,
 
 • Retourne : 0 en cas de succès, code d’erreur sinon
 
-On peut récupérer son identifiant avec:
+On peut récupérer son identifiant avec :
 
 ```c
 pthread_t pthread_self ( void );
 ```
 
-Et comparer deux identifiants avec:
+Et comparer deux identifiants avec :
 ```c
 int pthread_equal ( pthread_t thread1 , pthread_t thread2 );
 ```
 #linebreak()
-*#sym.plus.triangle #text(fill: red, "Attention: pthread_t est un type opaque et diffère en fonction des implémentations.")*
+*#sym.plus.triangle #text(fill: red, "Attention : pthread_t est un type opaque et diffère en fonction des implémentations.")*
 
 #linebreak()
 
 === Terminaison
 #linebreak()
 
-La fonction du thread se termine par un return, cependant pour une terminaison explicite nous devons faire un appel à la procédure:
+La fonction du thread se termine par un return, cependant pour une terminaison explicite nous devons faire un appel à la procédure :
 ```c
 // depuis un autre processus
 void pthread_exit ((void *) retval);
@@ -656,7 +656,7 @@ void pthread_exit ((void *) retval);
 void pthread_exit (nullptr);
 ```
 
-Cependant pour attendre explicitement nous pouvons faire appel à:
+Cependant pour attendre explicitement nous pouvons faire appel à :
 ```c
 pthread_join(th, nullptr);
 ```
@@ -664,10 +664,10 @@ pthread_join(th, nullptr);
 
 === Attributs et états
 #linebreak()
-On caractérise les threads en deux catégories:
+On caractérise les threads en deux catégories :
 
 
-- #text(fill: red, "Joignable (par défaut)") : Doit être joint avec pthread_join:
+- #text(fill: red, "Joignable (par défaut)") : Doit être joint avec pthread_join :
   - Ressources conservées après terminaison
   - Nécessite un pthread_join() pour libérer les ressources
   
@@ -680,7 +680,7 @@ On caractérise les threads en deux catégories:
 
 
 #pagebreak()
-De plus la gestion des attributs nécéssite un petit peu de logistique. Voici un exemple complet qui sera plus démonstratif:
+De plus la gestion des attributs nécessite un petit peu de logistique. Voici un exemple complet qui sera plus démonstratif :
 ```c
 # include <stdio.h>
 # include <stdlib.h>
@@ -707,7 +707,7 @@ int main (){
     perror("pthread_attr_setdetachstate");
     exit(EXIT_FAILURE);
   }
-  // Configuration de la taille de la pile de 2 MB
+  // Configuration de la taille de la pile à 2 MB
   size_t stack_size = 2 * 1024 * 1024;
   if(pthread_attr_setstacksize(&attr, stack_size) != 0) {
     perror("pthread_attr_setstacksize") ;
@@ -733,7 +733,7 @@ int main (){
 == Problèmes de mémoire
 #linebreak()
 
-Il faut néanmoins faire attention aux variables auutomatiques qui seraient initialisées par un thread car ils sont allouées dans la pile du thread en question, il suffit qu'un pointeur soit renvoyé sur cette valeur puisque le thread se termine (libération des ressoucres de sa stack), nous nous retrouverions avec un référence invalide. Ce qui représente une faille de sécurité majeure mais également un comportement indéfini lors de la lecture de la mémoire à partir de ce pointeur. La bonne solution est donc d'allouer dynamiquement dans le tas avec un malloc, ce qui nous confère une gestion sécurisée de la mémoire pointée par celui-ci.
+Il faut néanmoins faire attention aux variables auutomatiques qui seraient initialisées par un thread car elles sont allouées dans la pile du thread en question, il suffit qu'un pointeur soit renvoyé sur cette valeur puisque le thread se termine (libération des ressources de sa stack), nous nous retrouverions avec une référence invalide. Ce qui représente une faille de sécurité majeure mais également un comportement indéfini lors de la lecture de la mémoire à partir de ce pointeur. La bonne solution est donc d'allouer dynamiquement dans le tas avec un malloc, ce qui nous confère une gestion sécurisée de la mémoire pointée par celui-ci.
 
 #linebreak()
 
@@ -770,9 +770,9 @@ Un *système de fichiers* est la structure logique qui organise et gère le stoc
 
 - *#text(fill: red, "Gestion de l’espace disque")* : Alloue et libère des blocs de mémoire de manière efficace pour optimiser le stockage.
 
-- *#text(fill: red, "Organisation hiérarchique")* : Crée une structure en arborescenceavec des dossiers (répertoires) et des fichiers, facilitant la navigation.
+- *#text(fill: red, "Organisation hiérarchique")* : Crée une structure en arborescence avec des dossiers (répertoires) et des fichiers, facilitant la navigation.
 
-- *#text(fill: red, "Gestion des métadonnées")* : Conserve les informations cruciales surchaque fichier (nom, taille, dates de création/modification, etc.).
+- *#text(fill: red, "Gestion des métadonnées")* : Conserve les informations cruciales sur chaque fichier (nom, taille, dates de création/modification, etc.).
 
 - *#text(fill: red, "Contrôle d’accès")* : Gère les permissions pour déterminer qui peut lire, écrire ou exécuter un fichier.
 
@@ -789,7 +789,7 @@ Un *système de fichiers* est la structure logique qui organise et gère le stoc
       [*Système de Fichiers*], [*Système de Gestion de Fichiers*],
       [C'est la structure *logique*], [C'est la partie *logicielle* composante du noyeau],
       [Définit comment les fichiers sont organisés (arborescence)], [Gère toutes les opérations:  créer, lire, supprimer..],
-      [Exemple: le format ext4 de votre disque dur], [Assure la cohérence des données et les permissions],
+      [Exemple : le format ext4 de votre disque dur], [Assure la cohérence des données et les permissions],
     ),
     stroke: 1pt
   )
@@ -817,9 +817,9 @@ Voici le détail d'un groupe de blocs:
 
 - *#text(fill: red, "Bitmap de blocs")* : Une carte des blocs de données, indiquant s’ils sont libres ou occupés.
 
-- *#text(fill: red, "Bitmap d’inodes")* : Une carte des i-noeuds, indiquant s’ils sont libresou occupés.
+- *#text(fill: red, "Bitmap d’inodes")* : Une carte des i-noeuds, indiquant s’ils sont libres ou occupés.
 
-- *#text(fill: red, "Table des i-noeuds")* : Le coeur du système. Chaque entrée (i-node)contient les métadonnées d’un fichier (emplacement, permissions, etc.).
+- *#text(fill: red, "Table des i-noeuds")* : Le coeur du système. Chaque entrée (i-node) contient les métadonnées d’un fichier (emplacement, permissions, etc.).
 
 - *#text(fill: red, "Blocs de données")* : Contiennent le contenu réel des fichiers.
 
@@ -835,7 +835,7 @@ Un i-noeud (ou inode "index node") est une structure de données qui décrit un 
   #underline[#emph[Schéma de la structure interne d'un i-noeud]]
 ]
 
-Nous pouvons nous demander que contient vraiment un répertoire?
+Nous pouvons nous demander que contient vraiment un répertoire ?
 - Des noms de fichiers (lisible par l'utilisateur)
 - Des numéros d'inode (référence du système)
 #linebreak()
@@ -843,7 +843,7 @@ Nous pouvons nous demander que contient vraiment un répertoire?
 === Opérations sur l’i-noeud
 #linebreak()
 
-Nous disposons de différents appels systèmes pour manipuler les i-noeuds:
+Nous disposons de différents appels systèmes pour manipuler les i-noeuds :
 
 ```c
 int stat(const char *path, struct stat *buf);
@@ -854,7 +854,7 @@ int lstat(const char *path, struct stat *buf);
 
 #text(fill: red, "Attention tout de même : lstat() retourne les informations du lien symbolique lui même, et non pas celles du fichier cible")
 
-De plus nous disponsons d'une structure de données `struct stat` voici une énumération des métadonnées principales ainsi que leur appelation.
+De plus, nous disposons d'une structure de données `struct stat`, voici une énumération des métadonnées principales ainsi que leur appellation :
 
 ```c
 dev_t st_dev; // Périphérique contenant le fichier
@@ -879,13 +879,13 @@ Les permissions de base:
 - *#text(fill: red, "Groupe")* : S_IRGRP (r), S_IWGRP (w), S_IXGRP (x)
 - *#text(fill: red, "Autres")* : S_IROTH (r), S_IWOTH (w), S_IXOTH (x)
 
-Nous disposons également d'appels systèmes afin de modifier ces permissions:
+Nous disposons également d'appels système afin de modifier ces permissions :
 ```c
 int chmod(const char *path, mode_t mode);
 int fchmod(int fd, mode_t mode);
 ```
 #linebreak()
-Il est également possible de modifier le propriétaire du fichier grâce aux appels systèmes suivants:
+Il est également possible de modifier le propriétaire du fichier grâce aux appels système suivants :
 ```c
 int chown(const char *path, uid_t owner, gid_t group);
 int fchown(int fd, uid_t owner, gid_t group);
@@ -898,7 +898,7 @@ group);
 
 == Opérations sur les fichiers
 #linebreak()
-Nous disposons d'une multitude d'appels systèmes afin d'effectuer des opérations sur les fichiers, en voici une courte présentation, n'hésitez pas compléter avec la documentation officielle.
+Nous disposons d'une multitude d'appels système afin d'effectuer des opérations sur les fichiers, en voici une courte présentation, n'hésitez pas à compléter avec la documentation officielle.
 
 #linebreak()
 Pour gérer l'ouverture d'un fichier:
@@ -937,16 +937,16 @@ int ftruncate(int fd, off_t length);
   #underline[#emph[Schéma de la structure  d'une table système]]
 ]
 
-Les descripteurs de fichiers sont des entiers identifiant des fichiers / ressources ouvertes, la plage typique sous Linux est de 0 à 1024. Chaque processus possède sa propre table des descripteurs comme montrer ci-dessus.
+Les descripteurs de fichiers sont des entiers identifiant des fichiers / ressources ouvertes, la plage typique sous Linux est de 0 à 1024. Chaque processus possède sa propre table des descripteurs comme montré ci-dessus.
 
-Remarque: Les descripteurs peuvent égalemment représenter des :
+Remarque : Les descripteurs peuvent égalemment représenter des :
 - Tubes (pipes)
 - Sockets réseau
 - Périphériques
 
 #linebreak()
 
-== Opération sur les fichiers
+== Opérations sur les fichiers
 #linebreak()
 
 L'ouverture de fichiers:
@@ -974,7 +974,7 @@ Les modes d'ouverture :
   )
 ]
 
-En ce qui concerne le mode d'ouverture il est à noté que nous avons un filtrage par *umask*. L'opération réalisée est donc le suivant:
+En ce qui concerne le mode d'ouverture il est à noter que nous avons un filtrage par *umask*. L'opération réalisée est donc la suivante :
 #text(fill: red, "Permissions = mode & ~umask").
 
 #linebreak()
@@ -1019,18 +1019,18 @@ En ce qui concerne le mode d'ouverture il est à noté que nous avons un filtrag
 #linebreak()
 Nous disposons egalement de read(), write() & lseek(). Vous pouvez vous référencer au cours de M.Hancart d'Algo1 qui fournit une spécification complète sur le sujet.
 
-Il est à notifier que la synchronisation des écritures est très intéréssantes pour les données critiques:
+Il est à notifier que la synchronisation des écritures est très intéressante pour les données critiques :
 
 ```c
 # include < unistd .h >
-void sync ( void ) ; // Synchronise tous les buffers du syst è me
-int fsync ( int fd ) ; // Synchronise un fichier sp é cifique
-int fdatasync ( int fd ) ; // Synchronise les donn é es ( pas m é tadonn é es )
+void sync ( void ) ; // Synchronise tous les buffers du système
+int fsync ( int fd ) ; // Synchronise un fichier spécifique
+int fdatasync ( int fd ) ; // Synchronise les données ( pas métadonnées )
 ```
 
 #linebreak()
 
-=== Duplication de descripetur de fichier dup & dup2
+=== Duplication de descripteur de fichier dup & dup2
 #linebreak()
 
 ```c
@@ -1060,7 +1060,7 @@ Ces appels permettent à deux descripteurs de pointer vers le même fichier ouve
 == Implémentation et manipulation
 #linebreak()
 
-Nous disposons de deux fonctions pour changer de répertoire:
+Nous disposons de deux fonctions pour changer de répertoire :
 ```c
 #include <stdio.h>
 #include <unistd.h>
@@ -1068,13 +1068,13 @@ Nous disposons de deux fonctions pour changer de répertoire:
 int main() {
   char cwd[1024];
   getcwd(cwd, sizeof(cwd));
-  printf("Avant: %s\n", cwd);
+  printf("Avant : %s\n", cwd);
   if (chdir("/tmp") == -1) {
     perror("chdir");
     return EXIT_FAILURE;
   }
   getcwd(cwd, sizeof(cwd));
-  printf("Apres: %s\n", cwd);
+  printf("Apres : %s\n", cwd);
   return EXIT_SUCCESS;
 } 
 ```
@@ -1086,14 +1086,14 @@ et donc getcwd() pour récupérer le répertoire courant.
 == Manipulation des répertoires
 #linebreak()
 
-Fonctions principales:
+Fonctions principales :
 - #text(fill: red, "opendir()") : ouvre un flux répertoire
 - #text(fill: red, "readdir()") : lit une entrée
 - #text(fill: red, "closedir()") : ferme le flux
 
 #linebreak()
 
-Nous avons également accès à la structure de données `dirent` définit comme suit:
+Nous avons également accès à la structure de données `dirent` définit comme suit :
 ```c
 struct dirent {
   ino_t d_ino ; // numéro i-noeud
@@ -1101,7 +1101,7 @@ struct dirent {
 };
 ```
 #linebreak()
-Fonctions avancées:
+Fonctions avancées :
 - #text(fill: red, "rewinddir") : retour au début
 - #text(fill: red, "telldir") : position courante
 - #text(fill: red, "scandir") : lecture avec filtrage
@@ -1116,7 +1116,7 @@ Pour la création nous passons par la fonction :
 int mkdir(const char *pathname, mode_t mode);
 ```
 
-Pour renomer / déplacer des fichiers:
+Pour renommer / déplacer des fichiers :
 ```c
 int rename(const char *oldpath, const char *newpath);
 ```
@@ -1226,12 +1226,12 @@ Nous utilisons l'appel système `pipe()`:
 int tube[2]
 int pipe(int tube[2])
 ```
-Description : Créer un tube et retourne deux descripteurs de fichiers :
+Description : Crée un tube et retourne deux descripteurs de fichiers :
   - tube[0] : Extrémité de lecture.
   - tube[1] : Extrémité d'écriture.
 Retourne 0 en cas de succès, -1 en cas d'erreur.
 
-#underline[Effet sur les tables système]:
+#underline[Effet sur les tables système] :
 
 #image("/img/pipe_effect.svg")
 #align(right)[
@@ -1240,13 +1240,13 @@ Retourne 0 en cas de succès, -1 en cas d'erreur.
 #linebreak()
 
 #pagebreak()
-Séquence d'exécution de pipe():
+Séquence d'exécution de pipe() :
 
 #linebreak()
 1. Allocation inode virtuel dans la table des inodes en mémoire
 2. Création structure pipe_inode_info en mémoire
 3. Lien inode vers structure pipe
-4. Création deux entrées(resp. Read et Write) dans la table des fichiers
+4. Création deux entrées (resp. Read et Write) dans la table des fichiers
 5. Lien fichier vers inode virtuel
 6. Allocation de deux descripteurs dans le processus
 7. Lien descripteurs vers entrée fichiers respectives
@@ -1341,8 +1341,8 @@ Lecture (open("montube", O_RDONLY | O_NONBLOCK)):
   #rect(stroke: red, inset: (x: 25pt, y: 25pt),
   "
   Conséquences Importantes:
-  Multiple écrivains possibles sur un même tube
-  Multiple lecteurs possibles sur un même tube
+  Multiples écrivains possibles sur un même tube
+  Multiples lecteurs possibles sur un même tube
   Un processus peut être lecteur et écrivain
   Les rôles sont définis par les descripteurs ouverts  
   "
@@ -1360,7 +1360,7 @@ Pour lire nous utilisons l'appel système `read()`
 ssize_t read (int fd, void *buf, size_t count);
 ```
 #linebreak()
-Description:
+Description :
 Lit jusqu'à count octets depuis le descripteur fd (tube[0]) dans le buffer buf.
 Retourne le nombre d'octets lus (peut être < count), 0 pour EOF, ou -1 en cas d'erreur
 
@@ -1405,7 +1405,7 @@ Condition d'écriture atomique :
 - Lorsque la taille des données ≤ PIPE_BUF (généralement 4096 octets)
 - L'écriture est atomique : pas d'entrelacement avec d'autres écrivains
 
-Vérication de PIPE_BUF :
+Vérification de PIPE_BUF :
 ```c
 #include <unistd.h>
 printf("PIPE_BUF = %ld\n", fpathconf(fd, _PC_PIPE_BUF));
