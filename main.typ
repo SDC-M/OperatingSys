@@ -1524,6 +1524,85 @@ Ensuite on ferme le segment avec `close(descripteur)`
 puis un `shm_unlink("/nom")`
 
 La mémoire n’est réellement libérée que quand tous les processus ont
-fermé leur mappage.
+fermé leur mappage (projection).
+
+#pagebreak()
 
 === Exemple
+
+
+
+#grid(
+  columns: (1fr, 1fr),
+  rows: (auto, 60pt),
+
+  figure(supplement: "Programme", caption: "Ecrivain", text(```c
+  int main() {
+    int fd = shm_open("/segment", O_CREAT | O_RDWR, 0666);
+    int r = EXIT_FAILURE;
+    if (fd == -1) {
+      perror("shm_open");
+      exit(EXIT_FAILURE);
+    }
+
+    if (ftruncate(fd, sizeof(int)) != 0) {
+      perror("ftruncate");
+      goto cleanup;
+    }
+
+    volatile int *mshm = mmap(nullptr, sizeof(int),
+                              PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+    if (mshm == MAP_FAILED) {
+      perror("mmap");
+      goto cleanup;
+    }
+
+    *mshm = 20;
+
+    sleep(20);
+
+    r = EXIT_SUCCESS;
+  // Cleanup
+    munmap(mshm, sizeof(int));
+  cleanup:
+    close(fd);
+    shm_unlink("/segment");
+    return r;
+  }
+  ```)),
+
+  figure(supplement: "Programme", caption: "Lecteur", text(```c
+    int main() {
+      int fd = shm_open("/segment", O_CREAT | O_RDWR, 0666);
+      int r = EXIT_FAILURE;
+      if (fd == -1) {
+        perror("shm_open");
+        exit(EXIT_FAILURE);
+      }
+
+      if (ftruncate(fd, sizeof(int)) != 0) {
+        perror("ftruncate");
+        goto cleanup;
+      }
+
+      volatile int *mshm = mmap(nullptr, sizeof(int),
+                                PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+      if (mshm == MAP_FAILED) {
+        perror("mmap");
+        goto cleanup;
+      }
+
+      printf("%d", *mshm);
+  // Cleanup
+    munmap(mshm, sizeof(int));
+  cleanup:
+    close(fd);
+    shm_unlink("/segment");
+    return r;
+    }
+  ```)),
+)
+
+Si on lance Programme 1 puis Programme 2, on obtient en sortie de Programme 2, `20`.
