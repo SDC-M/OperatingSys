@@ -21,9 +21,9 @@
 #show: ilm.with(
   title: [Introduction aux systèmes d'exploitation],
   author: "",
-  abstract: [#emph[Ceci est un support non officiel, qui a pour but de regrouper l'ensemble des notions vues en cours d'introduction aux systèmes d'exploitation dispensé en deuxième année de licence informatique à l'UFR sciences et techniques du Madrillet par le professeur *ZIADI DJELLOUL* Il est non exhaustif et collaboratif. 
-  Ce document est à jour pour l'année universitaire *2025-2026*. Pour toute suggestion, ouvrez une issue sur le dépôt GitHub. Merci aux contributeurs : #underline[#link("https://github.com/SDC-M/Introduction-aux-syst-mes-d-exploitation.git")] ]
-  Le support se décompose en deux parties. Premièrement des rappels de cours avec des exemples commentés ainsi que des définitions puis une partie avec des exercices corrigés.],
+  abstract: [#emph[Ceci est un support non officiel, qui a pour but de regrouper l'ensemble des notions vues en cours d'introduction aux systèmes d'exploitation dispensé en deuxième année de licence informatique à l'UFR sciences et techniques du Madrillet par le professeur *ZIADI DJELLOUL* Il est non exhaustif et collaboratif.
+      Ce document est à jour pour l'année universitaire *2025-2026*. Pour toute suggestion, ouvrez une issue sur le dépôt GitHub. Merci aux contributeurs : #underline[#link("https://github.com/SDC-M/Introduction-aux-syst-mes-d-exploitation.git")] ]
+    Le support se décompose en deux parties. Premièrement des rappels de cours avec des exemples commentés ainsi que des définitions puis une partie avec des exercices corrigés.],
   date: datetime(year: 2025, month: 10, day: 24),
   date-format: "24 Octobre 2025",
   chapter-pagebreak: false,
@@ -41,15 +41,14 @@
 
 #set table(
   stroke: black,
-  fill: (x, y) =>
-    if  y == 0 { gray },
+  fill: (x, y) => if y == 0 { gray },
   inset: (right: 0.5em),
 )
 
 #set par(
   justify: true,
   leading: 1.25em,
-  spacing: 2.2em 
+  spacing: 2.2em,
 )
 
 #set heading(numbering: "1.")
@@ -58,11 +57,13 @@
 = *Chapitre 1: Introduction et gestion des processus*
 == Introduction
 #linebreak()
-Un système d'exploitation est un #text(red)[*logiciel intermédiaire*] remplissant deux fonctions principales: 
+Un système d'exploitation est un #text(red)[*logiciel intermédiaire*] remplissant deux fonctions principales:
 
-#list(indent: 2em)[Assurer la #text(red)[*gestion efficace*] des périphériques matériels (le clavier, l’écran, le disque, la mémoire, le processeur, ...)][Offrir aux programmes une #text(red)[*interface abstraite*] et simplifiée pour interagir avec le matériel, sans en connaître les détails techniques.]
+#list(
+  indent: 2em,
+)[Assurer la #text(red)[*gestion efficace*] des périphériques matériels (le clavier, l’écran, le disque, la mémoire, le processeur, ...)][Offrir aux programmes une #text(red)[*interface abstraite*] et simplifiée pour interagir avec le matériel, sans en connaître les détails techniques.]
 
-Le système d'exploitation optimise et sécurise l'utilisation des ressources en répartissant le temps *CPU* entre les différents processus : on parle d'ordonnencement. 
+Le système d'exploitation optimise et sécurise l'utilisation des ressources en répartissant le temps *CPU* entre les différents processus : on parle d'ordonnencement.
 
 Il alloue et libère la mémoire utilisée pour chaque processus.
 
@@ -73,11 +74,13 @@ Il gère et sécurise les lectures / écritures ainsi que l'organisation des fic
 === Types de systèmes d'exploitation
 #linebreak()
 
-#list(indent: 2em)[*Mainframes* : traitement de très gros volumes de données (ex. IBM z/OS).][*Serveurs* : gestion des services réseaux (ex. Linux, Windows Server).][*Multiprocesseurs* : exploitation de plusieurs CPU en parallèle.][*Personnels* : ordinateurs individuels, interface conviviale (ex. Windows, macOS).][*Temps réel* : respect de délais stricts, applications critiques (ex. VxWorks).][*Embarqués* : systèmes pour appareils spécifiques (ex. Android, FreeRTOS).][*Cartes à puce* : ultra-légers et sécurisés (ex. Java Card).]
+#list(
+  indent: 2em,
+)[*Mainframes* : traitement de très gros volumes de données (ex. IBM z/OS).][*Serveurs* : gestion des services réseaux (ex. Linux, Windows Server).][*Multiprocesseurs* : exploitation de plusieurs CPU en parallèle.][*Personnels* : ordinateurs individuels, interface conviviale (ex. Windows, macOS).][*Temps réel* : respect de délais stricts, applications critiques (ex. VxWorks).][*Embarqués* : systèmes pour appareils spécifiques (ex. Android, FreeRTOS).][*Cartes à puce* : ultra-légers et sécurisés (ex. Java Card).]
 
 == Les normes
 #linebreak()
-Les normes sont un moyen d'assurer la portabilité ainsi que la durabilité d'un code, pour cela nous disposons de différents niveaux de certifications afin de mesurer la qualité du code produit. 
+Les normes sont un moyen d'assurer la portabilité ainsi que la durabilité d'un code, pour cela nous disposons de différents niveaux de certifications afin de mesurer la qualité du code produit.
 
 #linebreak()
 
@@ -89,7 +92,7 @@ POSIX est un standard définissant une #text(red)[*interface commune pour les sy
 
 Il garantit la portabilité des applications entre différents systèmes de type UNIX.
 
-Pour définir le respect des normes POSIX avec GCC, il suffit de définir *\_POSIX_SOURCE* pour demander le respect général de POSIX ou bien *\_POSIX_C_SOURCE* pour activer des fonctionalités spécifiques selon la version : "Année + Mois + L". 
+Pour définir le respect des normes POSIX avec GCC, il suffit de définir *\_POSIX_SOURCE* pour demander le respect général de POSIX ou bien *\_POSIX_C_SOURCE* pour activer des fonctionalités spécifiques selon la version : "Année + Mois + L".
 
 #linebreak()
 
@@ -107,7 +110,7 @@ Pour définir le respect de la norme SUS avec GCC, il suffit de définir *\_XOPE
 === Fonctionnement
 #linebreak()
 Un appel système est une interface entre un programme utilisateur et le noyau du système
-d’exploitation. Il donne accès à des ressources protégées (fichiers, réseau, mémoire, ...) Il s'exécute en mode noyau pour réaliser des tâches privilligiées. 
+d’exploitation. Il donne accès à des ressources protégées (fichiers, réseau, mémoire, ...) Il s'exécute en mode noyau pour réaliser des tâches privilligiées.
 Les appels système provoquent donc un passage du mode utilisateur au mode noyau.
 
 #linebreak()
@@ -144,9 +147,9 @@ Gestion des erreurs
       [*Fonction*], [*POSIX*], [*Thread-safe*], [*Recommandation*],
       [perror()], [Oui], [Oui], [Exemples simples],
       [strerror()], [Oui], [Non], [À éviter en multithread],
-      [strerror_r()], [Oui], [Oui], [Préférée en multithread]
+      [strerror_r()], [Oui], [Oui], [Préférée en multithread],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 #linebreak()
@@ -166,9 +169,9 @@ Les recommandations sont donc :
       [*Niveau*], [Bas niveau], [Haut niveau],
       [*Portabilité*], [Dépend du système], [Portable],
       [*Complexité*], [Plus complexe], [Plus simple],
-      [*Exemple*], [write], [printf]
+      [*Exemple*], [write], [printf],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 #linebreak()
@@ -190,16 +193,20 @@ De plus, lorsqu'un processus est créé, il dispose d'une copie des données de 
 
 #align(center)[
   #adjacency(
-  (
-    (none, none, "Allocation", "Exit", none),
-    ("Admis", none, none, none, none),
-    ("Requisition", none, none, none, "Attente d'événement             "),
-    (none, none, none, none, none),
-    ("Fin d'événement", none, none, none, none)
-  ),
-  vertex-labels: (
-     "Prêt", "Nouveau", "Actif", "Terminé", "Bloqué"
-  )
+    (
+      (none, none, "Allocation", "Exit", none),
+      ("Admis", none, none, none, none),
+      ("Requisition", none, none, none, "Attente d'événement             "),
+      (none, none, none, none, none),
+      ("Fin d'événement", none, none, none, none),
+    ),
+    vertex-labels: (
+      "Prêt",
+      "Nouveau",
+      "Actif",
+      "Terminé",
+      "Bloqué",
+    ),
   )
   #underline[#emph[Automate représentant le cycle de vie d'un processus]]
 ]
@@ -222,7 +229,7 @@ Il existe différents types de terminaisons d'un processus :
 #linebreak()
 Il existe finalement un dernier regroupement de processus, *les sessions*, qui réunissent divers groupes de processus. Ce sont principalement les applications s'exécutant en *arrière-plan* qui utilisent les sessions. De manière générale une session est attachée à un terminal de contrôle, celui qui a servi à la connexion de l'utilisateur. Au sein d'une session, un groupe de processus est en avant-plan. Il reçoit directement les données saisies sur le clavier du terminal, et peut afficher ses informations de sortie sur l'écran de celui-ci. Les autres groupes de processus de la session s'exécutent en arrière-plan.
 
-La création d'une session s'effectue par l'appel système ```C setsid()```. 
+La création d'une session s'effectue par l'appel système ```C setsid()```.
 
 #linebreak()
 
@@ -333,22 +340,27 @@ Pour illustrer ces différentes politiques d'ordonnancement nous allons prendre 
     columns: (auto, auto, auto, auto, auto, auto),
     inset: 9pt,
     table.header(
-      [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*],[*attente*],
-      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*3 - 0 = 3*], [*3 - 0 = 3*], [*3 - 3 = 0*], 
+      [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*], [*attente*],
+      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*3 - 0 = 3*], [*3 - 0 = 3*], [*3 - 3 = 0*],
       [*B*], [*#text(fill: red, "2")*], [*#text(fill: blue, "6")*], [*9 - 2 = 7*], [*9 - 2 = 7*], [*7 - 6 = 1*],
       [*C*], [*#text(fill: red, "4")*], [*#text(fill: blue, "4")*], [*13 - 4 = 9*], [*13 - 4 = 9*], [*9 - 4 = 5*],
       [*D*], [*#text(fill: red, "6")*], [*#text(fill: blue, "5")*], [*18 - 6 = 12*], [*18 - 6 = 12*], [*12 - 5 = 7*],
       [*E*], [*#text(fill: red, "8")*], [*#text(fill: blue, "2")*], [*20 - 8 = 12*], [*20 - 8 = 12*], [*12 - 2 = 10*],
-      [*#text(fill: purple, "Moyenne")*], [], [], [*#text(fill: purple, "8,6")*], [#text(fill: purple, "8,6")], [*#text(fill: purple, "4,6")*],
+      [*#text(fill: purple, "Moyenne")*],
+      [],
+      [],
+      [*#text(fill: purple, "8,6")*],
+      [#text(fill: purple, "8,6")],
+      [*#text(fill: purple, "4,6")*],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
 #linebreak()
 #let axis-args = (
-  ticks: 1, 
-  format-subticks: lq.format-ticks-linear
+  ticks: 1,
+  format-subticks: lq.format-ticks-linear,
 )
 #align(center)[
   #lq.diagram(
@@ -366,8 +378,7 @@ Pour illustrer ces différentes politiques d'ordonnancement nous allons prendre 
     lq.plot((6, 7, 8, 9, 10, 11, 12, 13), (4, 4, 4, 4, 4, 4, 4, 4), color: gray),
     lq.plot((13, 14, 15, 16, 17, 18), (4, 4, 4, 4, 4, 4), color: red),
     lq.plot((8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18), (5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5), color: gray),
-    lq.plot((18, 19, 20), (5, 5, 5), color: red)
-
+    lq.plot((18, 19, 20), (5, 5, 5), color: red),
   )
 ]
 #pagebreak()
@@ -378,22 +389,27 @@ Pour illustrer ces différentes politiques d'ordonnancement nous allons prendre 
     columns: (auto, auto, auto, auto, auto, auto),
     inset: 9pt,
     table.header(
-      [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*],[*attente*],
-      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*3 - 0 = 3*], [*3 - 3 = 0*], 
+      [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*], [*attente*],
+      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*3 - 0 = 3*], [*3 - 3 = 0*],
       [*B*], [*#text(fill: red, "2")*], [*#text(fill: blue, "6")*], [*3 - 2 = 1*], [*9 - 2 = 7*], [*7 - 6 = 1*],
       [*C*], [*#text(fill: red, "4")*], [*#text(fill: blue, "4")*], [*11 - 4 = 7*], [*15 - 4 = 11*], [*15 - 4 = 11*],
       [*D*], [*#text(fill: red, "6")*], [*#text(fill: blue, "5")*], [*15 - 6 = 9*], [*20 - 6 = 14*], [*14 - 5 = 9*],
       [*E*], [*#text(fill: red, "8")*], [*#text(fill: blue, "2")*], [*11 - 8 = 3*], [*11 - 8 = 3*], [*3 - 2 = 1*],
-      [*#text(fill: purple, "Moyenne")*], [], [], [*#text(fill: purple, "4")*], [#text(fill: purple, "7,6")], [*#text(fill: purple, "4,4")*],
+      [*#text(fill: purple, "Moyenne")*],
+      [],
+      [],
+      [*#text(fill: purple, "4")*],
+      [#text(fill: purple, "7,6")],
+      [*#text(fill: purple, "4,4")*],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
 #linebreak()
 #let axis-args = (
-  ticks: 1, 
-  format-subticks: lq.format-ticks-linear
+  ticks: 1,
+  format-subticks: lq.format-ticks-linear,
 )
 #align(center)[
   #lq.diagram(
@@ -411,7 +427,7 @@ Pour illustrer ces différentes politiques d'ordonnancement nous allons prendre 
     lq.plot((8, 9), (5, 5), color: gray),
     lq.plot((9, 10, 11), (5, 5, 5), color: red),
     lq.plot((11, 12, 13, 14, 15), (3, 3, 3, 3, 3), color: red),
-    lq.plot((15, 16, 17, 18, 19, 20), (4, 4, 4, 4, 4, 4), color: red)
+    lq.plot((15, 16, 17, 18, 19, 20), (4, 4, 4, 4, 4, 4), color: red),
   )
 ]
 Liste du plus court à l'instant x = ?:
@@ -434,22 +450,27 @@ Liste du plus court à l'instant x = ?:
     columns: (auto, auto, auto, auto, auto, auto),
     inset: 9pt,
     table.header(
-      [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*],[*attente*],
-      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*13 - 0 = 13*], [*13 - 3 = 10*], 
+      [*Processus*], [*arrivé*], [*demandé*], [*réponse*], [*rotation*], [*attente*],
+      [*A*], [*#text(fill: red, "0")*], [*#text(fill: blue, "3")*], [*0 - 0 = 0*], [*13 - 0 = 13*], [*13 - 3 = 10*],
       [*B*], [*#text(fill: red, "2")*], [*#text(fill: blue, "6")*], [*2 - 2 = 0*], [*19 - 2 = 17*], [*17 - 6 = 11*],
       [*C*], [*#text(fill: red, "4")*], [*#text(fill: blue, "4")*], [*4 - 4 = 0*], [*15 - 4 = 11*], [*11 - 4 = 7*],
       [*D*], [*#text(fill: red, "6")*], [*#text(fill: blue, "5")*], [*6 - 6 = 0*], [*20 - 6 = 14*], [*14 - 5 = 9*],
       [*E*], [*#text(fill: red, "8")*], [*#text(fill: blue, "2")*], [*8 - 8 = 0*], [*10 - 8 = 2*], [*2 - 2 = 0*],
-      [*#text(fill: purple, "Moyenne")*], [], [], [*#text(fill: purple, "0")*], [#text(fill: purple, "9.2")], [*#text(fill: purple, "5,4")*],
+      [*#text(fill: purple, "Moyenne")*],
+      [],
+      [],
+      [*#text(fill: purple, "0")*],
+      [#text(fill: purple, "9.2")],
+      [*#text(fill: purple, "5,4")*],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
 #linebreak()
 #let axis-args = (
-  ticks: 1, 
-  format-subticks: lq.format-ticks-linear
+  ticks: 1,
+  format-subticks: lq.format-ticks-linear,
 )
 #align(center)[
   #lq.diagram(
@@ -459,23 +480,23 @@ Liste du plus court à l'instant x = ?:
     ylim: (0, 6),
     xlim: (0, 20),
     yaxis: (ticks: range(1, 6).zip(([A], [B], [C], [D], [E]))),
-    lq.plot((0, 1, 2),  (1, 1, 1), color: red),
-    lq.plot((2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),  (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), color: gray),
-    lq.plot((2, 3, 4),  (2, 2, 2), color: red),
-    lq.plot((4, 5, 6, 7, 8, 9, 10),  (2, 2, 2, 2, 2, 2, 2), color: gray),
-    lq.plot((4, 5, 6),  (3, 3, 3), color: red),
-    lq.plot((6, 7, 8, 9, 10, 11, 12, 13),  (3, 3, 3, 3, 3, 3, 3, 3), color: gray),
-    lq.plot((6, 7, 8),  (4, 4, 4), color: red),
-    lq.plot((8, 9, 10),  (5, 5, 5), color: red),
-    lq.plot((10, 11, 12),  (2, 2, 2), color: red),
-    lq.plot((12, 13),  (1, 1), color: red),
-    lq.plot((8, 9, 10, 11, 12, 13, 14, 15),  (4, 4, 4, 4, 4, 4, 4, 4), color: gray),
-    lq.plot((12, 13, 14, 15, 16, 17),  (2, 2, 2, 2, 2, 2), color: gray),
-    lq.plot((13, 14, 15),  (3, 3, 3), color: red),
-    lq.plot((15, 16, 17),  (4, 4, 4), color: red),
-    lq.plot((17, 18, 19),  (2, 2, 2), color: red),
-    lq.plot((17, 18, 19),  (4, 4, 4), color: gray),
-    lq.plot((19, 20),  (4, 4), color: red),
+    lq.plot((0, 1, 2), (1, 1, 1), color: red),
+    lq.plot((2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), color: gray),
+    lq.plot((2, 3, 4), (2, 2, 2), color: red),
+    lq.plot((4, 5, 6, 7, 8, 9, 10), (2, 2, 2, 2, 2, 2, 2), color: gray),
+    lq.plot((4, 5, 6), (3, 3, 3), color: red),
+    lq.plot((6, 7, 8, 9, 10, 11, 12, 13), (3, 3, 3, 3, 3, 3, 3, 3), color: gray),
+    lq.plot((6, 7, 8), (4, 4, 4), color: red),
+    lq.plot((8, 9, 10), (5, 5, 5), color: red),
+    lq.plot((10, 11, 12), (2, 2, 2), color: red),
+    lq.plot((12, 13), (1, 1), color: red),
+    lq.plot((8, 9, 10, 11, 12, 13, 14, 15), (4, 4, 4, 4, 4, 4, 4, 4), color: gray),
+    lq.plot((12, 13, 14, 15, 16, 17), (2, 2, 2, 2, 2, 2), color: gray),
+    lq.plot((13, 14, 15), (3, 3, 3), color: red),
+    lq.plot((15, 16, 17), (4, 4, 4), color: red),
+    lq.plot((17, 18, 19), (2, 2, 2), color: red),
+    lq.plot((17, 18, 19), (4, 4, 4), color: gray),
+    lq.plot((19, 20), (4, 4), color: red),
   )
 ]
 État de la file d'attente pour les processus prêts:
@@ -486,14 +507,14 @@ Liste du plus court à l'instant x = ?:
     inset: 8pt,
     table.header(
       [*T*], [*État de la file*], [*T*], [*État de la file*],
-      [0], [A], [12], [A -> C -> D -> B], 
-      [2], [B -> A], [13], [C -> D -> B], 
-      [4], [C -> A -> B], [15], [D -> B], 
+      [0], [A], [12], [A -> C -> D -> B],
+      [2], [B -> A], [13], [C -> D -> B],
+      [4], [C -> A -> B], [15], [D -> B],
       [6], [D -> B -> A -> C], [17], [B -> D],
-      [8], [E -> B -> A -> C -> D], [19], [D], 
-      [10], [B -> A -> C -> D], [19], [#sym.emptyset]
+      [8], [E -> B -> A -> C -> D], [19], [D],
+      [10], [B -> A -> C -> D], [19], [#sym.emptyset],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
@@ -509,7 +530,7 @@ Le time slicing est une technique d’ordonnancement où le temps CPU est divis�
 
 • Crée l’illusion d’un parallélisme sur les systèmes mono-core.
 
-Attention tout de même dans le cas ou nous dervions changer de contexte trop souvent cela créerait un *Overhead*. Dans le cas contraire un mauvais temps de réponse est donc une impression de latence. 
+Attention tout de même dans le cas ou nous dervions changer de contexte trop souvent cela créerait un *Overhead*. Dans le cas contraire un mauvais temps de réponse est donc une impression de latence.
 
 Dans le cas d'un exemple concret un calcul demandant beauocup de ressources CPU bloquerait toute interface graphique, alors qu'avec le time slicing nous pourrions continuer à l'utiliser.
 
@@ -567,10 +588,10 @@ Chaque thread possède ses composants privés indispensables à son exécution :
       [*Processus*], [*Threads*],
       [Espace mémoire séparé], [Espace mémoire partagé],
       [Fichiers ouverts séparés], [Fichiers ouverts partagés],
-      [Contexte d'exécution complet], [Contexte d'exécution minimal], 
+      [Contexte d'exécution complet], [Contexte d'exécution minimal],
       [Communication inter-processus], [Communication directe],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
@@ -583,7 +604,7 @@ Chaque thread possède ses composants privés indispensables à son exécution :
       [Isolation & Stabilité], [Réponse améliorée],
       [Gestion fine des ressources], [Économie de ressources],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
@@ -591,7 +612,7 @@ Chaque thread possède ses composants privés indispensables à son exécution :
 #linebreak()
 
 Il existe deux modèles principaux de gestion des threads :
-1.  Threads implantés dans l'espace utilisateur: *User-level Threads (ULTs)*
+1. Threads implantés dans l'espace utilisateur: *User-level Threads (ULTs)*
 
 Threads gérés entièrement par une bibliothèque au niveau de l’application (espace utilisateur). Le noyau OS n’a pas connaissance de leur existence.
 
@@ -599,7 +620,7 @@ Ils ont pour avantage d'être très performant, car pas d'appel système. De plu
 
 Cependant, ils manquent de parallélisme réel : en effet, un ULT bloquant bloque tous les threads du processus. De plus, le scheduleur OS ne va voir qu'un seul processus, il ne peut pas répartir les threads sur plusieurs coeurs.
 
-2.  Threads implantés dans le noyau *Kernel-level Threads (KLTs)*
+2. Threads implantés dans le noyau *Kernel-level Threads (KLTs)*
 
 Threads gérés directement par le système d’exploitation. Le noyau planifie leur exécution.
 
@@ -670,7 +691,7 @@ On caractérise les threads en deux catégories :
 - #text(fill: red, "Joignable (par défaut)") : Doit être joint avec pthread_join :
   - Ressources conservées après terminaison
   - Nécessite un pthread_join() pour libérer les ressources
-  
+
 - #text(fill: red, "Détaché") : Ressources libérées automatiquement
   - Impossible de joindre le thread
   - Libération automatique à la terminaison
@@ -742,9 +763,9 @@ Il faut néanmoins faire attention aux variables auutomatiques qui seraient init
 === Recommandations pour une application C portable
 #linebreak()
 
--  *Respecter les Standards* :
+- *Respecter les Standards* :
   - Utiliser la norme C99 ou C11.
-  -  Se conformer à l’API POSIX (```C #define _POSIX_C_SOURCE 200809L```).
+  - Se conformer à l’API POSIX (```C #define _POSIX_C_SOURCE 200809L```).
 - *Gérer les dépendances* :
   - Privilégier les bibliothèques standards.
   - Utiliser des outils de construction comme GNU Autotools ou CMake (outils standard de l’écosystème open-source).
@@ -788,10 +809,12 @@ Un *système de fichiers* est la structure logique qui organise et gère le stoc
     table.header(
       [*Système de Fichiers*], [*Système de Gestion de Fichiers*],
       [C'est la structure *logique*], [C'est la partie *logicielle* composante du noyeau],
-      [Définit comment les fichiers sont organisés (arborescence)], [Gère toutes les opérations:  créer, lire, supprimer..],
+      [Définit comment les fichiers sont organisés (arborescence)],
+      [Gère toutes les opérations:  créer, lire, supprimer..],
+
       [Exemple : le format ext4 de votre disque dur], [Assure la cohérence des données et les permissions],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
@@ -852,7 +875,10 @@ int lstat(const char *path, struct stat *buf);
 ```
 #linebreak()
 
-#text(fill: red, "Attention tout de même : lstat() retourne les informations du lien symbolique lui même, et non pas celles du fichier cible")
+#text(
+  fill: red,
+  "Attention tout de même : lstat() retourne les informations du lien symbolique lui même, et non pas celles du fichier cible",
+)
 
 De plus, nous disposons d'une structure de données `struct stat`, voici une énumération des métadonnées principales ainsi que leur appellation :
 
@@ -968,9 +994,9 @@ Les modes d'ouverture :
       [*Mode de base*], [*Attributs de création*], [*Attributs d'état*],
       [O_RDONLY], [O_CREAT], [O_APPEND],
       [O_WRONLY], [O_EXCL], [O_SYNC],
-      [O_RDWR], [O_TRUNC], []
+      [O_RDWR], [O_TRUNC], [],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
@@ -983,7 +1009,7 @@ En ce qui concerne le mode d'ouverture il est à noter que nous avons un filtrag
 
 #underline[Sur la table des descripteurs:]
 - Ajoute une entrée avec le plus petit descripteur disponible
-- Pointe vers une entrée de la table des fichiers ouverts 
+- Pointe vers une entrée de la table des fichiers ouverts
 
 #underline[Sur la table des fichiers ouverts:]
 - Crée toujours une nouvelle entrée même si le fichier est déjà ouvert
@@ -1076,7 +1102,7 @@ int main() {
   getcwd(cwd, sizeof(cwd));
   printf("Apres : %s\n", cwd);
   return EXIT_SUCCESS;
-} 
+}
 ```
 
 et donc getcwd() pour récupérer le répertoire courant.
@@ -1144,22 +1170,26 @@ int rename(const char *oldpath, const char *newpath);
       [unlink], [Les deux], [Supprimer un lien], [0 / -1],
       [link], [Lien], [Créer lien physique], [0 / -1],
       [symlink], [Lien], [Créer lien symbolique], [0 / -1],
-      [readlink], [Lien], [Lire cible lien symbolique], [Octets lus]
+      [readlink], [Lien], [Lire cible lien symbolique], [Octets lus],
     ),
-    stroke: 1pt
+    stroke: 1pt,
   )
 ]
 
 #linebreak()
 
 #align(center)[
-  #rect(stroke: red, inset: (x: 25pt, y: 25pt), "Points clés à retenir
+  #rect(
+    stroke: red,
+    inset: (x: 25pt, y: 25pt),
+    "Points clés à retenir
   Fichiers : manipulation du contenu (read/write)
   Répertoires : parcours et organisation (opendir/readdir)
   Liens : multiples noms pour un fichier (link/symlink)
-  Gestion : création/suppression (mkdir/rmdir/unlink)")
+  Gestion : création/suppression (mkdir/rmdir/unlink)",
+  )
 ]
-  
+
 #pagebreak()
 
 = *Chapitre 3: Les tubes*
@@ -1190,15 +1220,24 @@ Un tube est *un canal de communication unidirectionnel* qui relie un processus �
 #linebreak()
 
 #align(center)[
-#table(
-  columns: (auto, auto, auto, auto, auto),
-  inset: 10pt,
-  table.header(
-    [*Type*], [*Création*], [*Portée*], [*Persistance*], [*Visibilité*],
-    [Tubes Anonymes], [pipe()], [Processus parent enfant uniquement], [Durée de vie des processus], [Invisible dans le système de fichiers],
-    [Tubes Nommés (FIFOs)], [mkfifo() ou mknod()], [Tous les processus du système], [Durée du système de fichiers], [Fichier spécial (type'p')]
-  ),
-  stroke: 1pt
+  #table(
+    columns: (auto, auto, auto, auto, auto),
+    inset: 10pt,
+    table.header(
+      [*Type*], [*Création*], [*Portée*], [*Persistance*], [*Visibilité*],
+      [Tubes Anonymes],
+      [pipe()],
+      [Processus parent enfant uniquement],
+      [Durée de vie des processus],
+      [Invisible dans le système de fichiers],
+
+      [Tubes Nommés (FIFOs)],
+      [mkfifo() ou mknod()],
+      [Tous les processus du système],
+      [Durée du système de fichiers],
+      [Fichier spécial (type'p')],
+    ),
+    stroke: 1pt,
   )
 ]
 
@@ -1227,8 +1266,8 @@ int tube[2]
 int pipe(int tube[2])
 ```
 Description : Crée un tube et retourne deux descripteurs de fichiers :
-  - tube[0] : Extrémité de lecture.
-  - tube[1] : Extrémité d'écriture.
+- tube[0] : Extrémité de lecture.
+- tube[1] : Extrémité d'écriture.
 Retourne 0 en cas de succès, -1 en cas d'erreur.
 
 #underline[Effet sur les tables système] :
@@ -1258,20 +1297,20 @@ Séquence d'exécution de pipe() :
 #linebreak()
 
 #align(center)[
-#table(
-  columns: (auto, auto),
-  inset: 10pt,
-  table.header(
-    [*Champ*], [*Valeur pour un tube*],
-    [i_mode], [S_IFIFO (fichier FIFO)],
-    [i_pipe], [Pointeur vers pipe_inode_info],
-    [i_size], [Taille des données dans le tampon],
-    [i_count], [Compteur de références],
-    [i_op], [Opérations pipes (pipe_iops)],
-    [i_fop], [Opérations fichiers (pipefifo_fops)]
-  ),
-  stroke: 1pt
-)
+  #table(
+    columns: (auto, auto),
+    inset: 10pt,
+    table.header(
+      [*Champ*], [*Valeur pour un tube*],
+      [i_mode], [S_IFIFO (fichier FIFO)],
+      [i_pipe], [Pointeur vers pipe_inode_info],
+      [i_size], [Taille des données dans le tampon],
+      [i_count], [Compteur de références],
+      [i_op], [Opérations pipes (pipe_iops)],
+      [i_fop], [Opérations fichiers (pipefifo_fops)],
+    ),
+    stroke: 1pt,
+  )
 ]
 
 #linebreak()
@@ -1280,23 +1319,23 @@ Séquence d'exécution de pipe() :
 #linebreak()
 
 #align(center)[
-#table(
-  columns: (auto, auto),
-  inset: 10pt,
-  table.header(
-    [*Champ*], [*Description*],
-    [bufs], [Tableau de buffers circulaires],
-    [head], [Position de lecture],
-    [tail], [Position d'écriture],
-    [*readers*], [Nombre de lecteurs actifs],
-    [*writers*], [Nombre d'écrivains actifs],
-    [wait], [File d'attente pour blocage],
-    [lock], [Verrou pour synchronisation],
-    [r_counter], [Compteur de lectures],
-    [w_counter], [Compteur d'écritures]
-  ),
-  stroke: 1pt
-)
+  #table(
+    columns: (auto, auto),
+    inset: 10pt,
+    table.header(
+      [*Champ*], [*Description*],
+      [bufs], [Tableau de buffers circulaires],
+      [head], [Position de lecture],
+      [tail], [Position d'écriture],
+      [*readers*], [Nombre de lecteurs actifs],
+      [*writers*], [Nombre d'écrivains actifs],
+      [wait], [File d'attente pour blocage],
+      [lock], [Verrou pour synchronisation],
+      [r_counter], [Compteur de lectures],
+      [w_counter], [Compteur d'écritures],
+    ),
+    stroke: 1pt,
+  )
 ]
 
 
@@ -1313,7 +1352,7 @@ int open(const char *pathname, int flags);
 ```
 #linebreak()
 Description:
-- Crée un tube de chemin pathname dans le système de fichiers avec les permissions mode. 
+- Crée un tube de chemin pathname dans le système de fichiers avec les permissions mode.
 - Retourne 0 en cas de succès, -1 en cas d'erreur.
 
 L'appel open pour un tube nommé en mode non-bloquant (O_NONBLOCK) diffère selon le mode lecture ou écriture:
@@ -1338,14 +1377,16 @@ Lecture (open("montube", O_RDONLY | O_NONBLOCK)):
 #linebreak()
 
 #align(center)[
-  #rect(stroke: red, inset: (x: 25pt, y: 25pt),
-  "
+  #rect(
+    stroke: red,
+    inset: (x: 25pt, y: 25pt),
+    "
   Conséquences Importantes:
   Multiples écrivains possibles sur un même tube
   Multiples lecteurs possibles sur un même tube
   Un processus peut être lecteur et écrivain
-  Les rôles sont définis par les descripteurs ouverts  
-  "
+  Les rôles sont définis par les descripteurs ouverts
+  ",
   )
 ]
 
@@ -1419,4 +1460,70 @@ snprintf(message, sizeof(message), "Mon pid : %d", getpid());
 write(fd, message, strlen (message) + 1) ;
 ```
 #linebreak()
-*#text(fill: red,"Attention : Pour les données > PIPE_BUF, les écritures peuvent être intercalées entre plusieurs processus.")*
+*#text(fill: red, "Attention : Pour les données > PIPE_BUF, les écritures peuvent être intercalées entre plusieurs processus.")*
+
+#pagebreak()
+= Segments de mémoire partagé
+Les segments de mémoire partagé permettent un partage de ressources de manière plus efficace que les tubes.
+
+Un segment est une zone mémoire mappé dans un fichier.
+
+
+
+Le segment de mémoire est *hérité lors du fork* et est *persitant* jusqu'à la suppression explicite.
+
+== Utilisation en C posix
+Pour ouvrir un segment de mémoire partagée, il suffit d'utiliser shm_open
+```c
+int shm_open (const char * nom, int oflag, mode_t mode);
+```
+
+Le nom du segment devra toujours commencer par '/'.
+Les flags d'ouverture et les permissons (la variable mode de shm_open) sont à paramètrer selon l'utilisation du segment.
+
+La fonction retournera soit le descripteur de fichier correspondant au segment soit -1 avec errno paramétré avec le numéro de l'erreur.
+
+Par défaut, *la taille d'un segment de mémoire partagée est nulle*. Il est donc primordiale d'utiliser ftruncate pour déclaré la taille du segment.
+
+```c
+ftruncate(int descripteur, off_t taille du segment)
+```
+
+
+Pour pouvoir utiliser un segment de mémoire partagée comme un segment mémoire on utilise mmap. mmap permet de mapper le fichier du segment de mémoire partagée dans l'espace mémoire virtuel d'un processus.
+
+#image("img/segmem.svg")
+
+```c
+#include <sys/mman.h>
+void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+```
+
+La paramètre `addr` est utilisé uniquement lorsque `MAP_FIXED` est dans les flags de mmap. Dans ce cours, on mettra ce paramètre à `nullptr` ou `NULL`.
+
+`length` sera la taille du segment à mapper.
+
+`prot` permet au kernel de savoir quelles sont les permissions de la zone mémoire dans l'espace mémoire du processus. On utilisera `PROT_READ` et `PROT_WRITE`.
+
+`flags` permet au kernel de savoir quel type de mapper est à effectuer. On utilisera `MAP_SHARED` pour partager la mémoire entre processus.
+
+`fd` est le descripteur de notre segment de mémoire partagée.
+
+`offset` est le décalage par rapport au début du fichier. Utile quand on veut mapper une sous-partie du segment de mémoire.
+
+=== Fermeture d'un segment de mémoire partagée
+Pour supprimer le mappage du segment de mémoire, on utilisera la syscall munmap.
+```c
+int munmap(void *addr, size_t len);
+```
+avec `addr` l'adresse du début de la zone mémoire et len sa taille.
+
+`munmap` retourne soit 0 soit -1 en cas de problème avec errno paramétré avec le numéro de l'erreur.
+
+Ensuite on ferme le segment avec `close(descripteur)`
+puis un `shm_unlink("/nom")`
+
+La mémoire n’est réellement libérée que quand tous les processus ont
+fermé leur mappage.
+
+=== Exemple
