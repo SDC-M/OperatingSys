@@ -1216,7 +1216,7 @@ Un tube est *un canal de communication unidirectionnel* qui relie un processus �
 
 #linebreak()
 
-=== Tubes nommés vs tubes anonymes
+=== Tubes nommés vs tubes anonymes <nommé_anonyme>
 #linebreak()
 
 #align(center)[
@@ -1245,9 +1245,9 @@ Un tube est *un canal de communication unidirectionnel* qui relie un processus �
 
 Exemple shell:
 ```sh
-Tube anonyme
+# Tube anonyme
 ps aux | wc -l
-# Tube nomm é
+# Tube nommé
 mkfifo tube
 echo " test " > tube &
 cat < tube
@@ -1606,3 +1606,130 @@ fermé leur mappage (projection).
 )
 
 Si on lance Programme 1 puis Programme 2, on obtient en sortie de Programme 2, `20`.
+
+#pagebreak()
+
+= Exclusion mutuelle
+L'utilisation de segment de mémoire partagée induit un nouveau problème : *Les accès concurrents*
+
+Prenons deux processus sommant dans une même zone mémoire, des nombres. Les processus commence par lire la somme actuelle puis additionne une valeur v et remplace l'ancienne somme par la nouvelle. Imaginons que les deux processus lisent en même la somme actuelle lors de l'écriture dans la zone mémoire, il manquera une valeur dans la somme.
+
+On défini l'*exclusion mutuelle* comme un mécanisme garantissant qu’une ressource partagée ne soit utilisée que par un seul processus à la fois.
+
+L'exclusion mutuelle concerne la gestion de l’accès concurrente à une ressource partagée, afin d’éviter les conflits ou les corruptions de données.
+
+Ce mécanisme doit respecter quatres propriétés:
+1. Exclusion mutuelle : Un seul processus dans la section critique
+2. Progression : Décision en temps fini
+3. Attente bornée : Pas de famine (starvation)
+4. Indépendance des vitesses : Pas supposition quant à la vitesse ou le nombre de processus
+
+== Sémaphore
+Une sémaphore est une solution proposé par Dijkstra en 1965. Elle se base sur un compteur et une file (FIFO)
+est défini par opération:
+- Init(val) -> initialise le compteur à la val et
+- P(sem) -> Décremente le compteur
+- V(sem) -> Incrémente le compteur
+
+Lors d'un appel à P quand le compteur est inférieur ou égal à 0,
+le processus est bloqué et est ajouté à la file d'attente.
+
+Lors d'un appel à V, le compteur est incrémenté et le processus en tête de file est débloqué si processus il y a.
+
+=== Sémaphore POSIX
+Il existe deux types de sémaphores comme pour les tubes: anonymes et nommées[#ref(<nommé_anonyme>)].
+
+Ici nous nous concentrons sur les sémaphores nommées.
+
+Pour ouvrir une sémaphore nommé, on utilise:
+```c
+sem_t *sem_open(const char *name, int oflag, ...
+                /* mode_t mode, unsigned int value */ );
+```
+
+L'utilisation de mode et value est utilisé lors de la création/initialisation du sémaphore c'est-à-dire lorsque oflag contient `O_CREAT`.
+
+
+P est nommé sem_wait et V est nommé sem_post dans la norme POSIX.
+
+```c
+#include <semaphore.h>
+// Opérations de base
+int sem_wait(sem_t *sem); // Renvoie -1 en cas d'erreur 0 sinon
+int sem_post(sem_t *sem); // Renvoie -1 en cas d'erreur 0 sinon
+```
+
+Pour la fermeture de la sémaphore (équivalent à la fermeture des tubes nommées):
+```c
+int sem_close(sem_t *sem);
+int sem_unlink(const char *name);
+```
+
+== Problèmes avec les sémaphore
+=== Producteur-Consommateur
+=== Lecteurs-Rédacteur
+=== Rendez-vous
+=== Diner des philosophes
+=== Barrière de Synchronisation
+=== Problème du Barbier
+
+#pagebreak(weak: true)
+= Signaux
+Un signal est un mécanisme de communication asynchrone qui permet :
+- D’interrompre l’exécution d’un processus
+- De lui notifier un événement
+- De forcer une action immédiate
+
+Il existe plusieurs comportement possible lors de la reception d'un signal:
+- Ignorer le signal#footnote[(sauf SIGKILL, SIGSTOP)]
+- Exécuter l’action par défaut
+- Capturer le signal et exécuter une fonction
+- Bloquer le signal temporairement
+== kill()
+La fonction kill permet d'envoyer un signal à un ou plusieurs processus.
+```c
+int kill(pid_t pid, int sig);
+// pid > 0 : processus specifique
+// pid = 0 : meme groupe
+// pid = -1 : tous ( sauf init )
+// pid < -1 : groupe - pid
+```
+
+== La famille de fonction sig
+=== Gestion des ensembles de signaux
+```c
+int sigemptyset(sigset_t *set); // Ensemble vide
+int sigfillset(sigset_t *set); // Tous les signaux
+int sigaddset(sigset_t *set, int sig); // Ajouter signal
+int sigdelset(sigset_t *set, int sig); // Retirer signal
+int sigismember(const sigset_t *set, int sig); // Vérifier si le signal est dans l'ensemble
+```
+
+=== sigprocmask
+sigprocmask permet de changer l'état d'un signal en d'autre de termes de la faire passer d'un état bloqué à non-bloqué et vice-versa.
+
+```c
+int sigprocmask (int how, const sigset_t *set, sigset_t *oldset);
+```
+
+Les valeurs possible de how sont:
+- SIG_BLOCK : Ajouter à l’ensemble des bloqués
+- SIG_UNBLOCK : Retirer de l’ensemble des bloqués
+- SIG_SETMASK : Remplacer l’ensemble des bloqués
+
+=== sigaction
+
+```c
+int sigaction(int sig, const struct sigaction *restrict act, struct sigaction *restrict oact);
+```
+
+`sig` est le numéro du signal auquel va être relié la structure "sigaction".
+
+Dans la structure sigaction, il y a trois champs:
+```c
+struct sigaction {
+  void (*sa_handler) (int); // Fonction de traitement
+  sigset_t sa_mask; // Signaux à bloquer pendant le traitement
+  int sa_flags; // Options de comportement
+};
+```
