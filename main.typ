@@ -12,21 +12,20 @@
 #import "@preview/codly-languages:0.1.8": *
 #codly(languages: codly-languages)
 
-
 #set text(
   font: "Adwaita Mono",
+  size: 10pt,
   lang: "FR",
 )
-
 
 #show: ilm.with(
   title: [Introduction aux systèmes d'exploitation],
   author: "",
   abstract: [#emph[Ceci est un support non officiel, qui a pour but de regrouper l'ensemble des notions vues en cours d'introduction aux systèmes d'exploitation dispensé en deuxième année de licence informatique à l'UFR sciences et techniques du Madrillet par le professeur *ZIADI DJELLOUL* Il est non exhaustif et collaboratif.
       Ce document est à jour pour l'année universitaire *2025-2026*. Pour toute suggestion, ouvrez une issue sur le dépôt GitHub. Merci aux contributeurs : #underline[#link("https://github.com/SDC-M/Introduction-aux-syst-mes-d-exploitation.git")] ]
-    Le support se décompose en deux parties. Premièrement des rappels de cours avec des exemples commentés ainsi que des définitions puis une partie avec des exercices corrigés.],
-  date: datetime(year: 2025, month: 10, day: 24),
-  date-format: "24 Octobre 2025",
+    ],
+  date: datetime.today(),
+  date-format: "[day padding:zero]/[month padding:zero]/[year repr:full]",
   chapter-pagebreak: false,
   figure-index: (enabled: false),
   table-index: (enabled: true),
@@ -40,6 +39,8 @@
 
 #set block(spacing: 1.1em)
 
+
+
 #set table(
   stroke: black,
   fill: (x, y) => if y == 0 { gray },
@@ -48,8 +49,8 @@
 
 #set par(
   justify: true,
-  leading: 1.25em,
-  spacing: 2.2em,
+  leading: 1em,
+  spacing: 1.1em,
 )
 
 #set heading(numbering: "1.")
@@ -111,7 +112,7 @@ Pour définir le respect de la norme SUS avec GCC, il suffit de définir *\_XOPE
 === Fonctionnement
 #linebreak()
 Un appel système est une interface entre un programme utilisateur et le noyau du système
-d’exploitation. Il donne accès à des ressources protégées (fichiers, réseau, mémoire, ...) Il s'exécute en mode noyau pour réaliser des tâches privilligiées.
+d’exploitation. Il donne accès à des ressources protégées (fichiers, réseau, mémoire, ...). Il s'exécute en mode noyau pour réaliser des tâches privilégiées.
 Les appels système provoquent donc un passage du mode utilisateur au mode noyau.
 
 #linebreak()
@@ -124,7 +125,7 @@ Les appels système provoquent donc un passage du mode utilisateur au mode noyau
 
 #linebreak()
 *Le mode noyau* :
-- Espace privilligié pour le système d'exploitation.
+- Espace privilégié pour le système d'exploitation.
 - Accès direct au matériel.
 - Gère les appels système et les interruptions.
 #linebreak()
@@ -153,7 +154,7 @@ Gestion des erreurs
 ]
 #linebreak()
 Les recommandations sont donc :
-- Programmes simples : perror() ou stererror()
+- Programmes simples : perror() ou strerror()
 - Programmes modernes / multithread : strerror_r() (POSIX)
 #linebreak()
 
@@ -176,7 +177,7 @@ Les recommandations sont donc :
 #linebreak()
 == Les processus
 #linebreak()
-L'un des premiers choix de conception que nous devons faire lors de la conception d'une application multitâche sera : *processus* ou *threads*. Chacune des approches possède son lot d'avantages et d'inconvéniants.
+L'un des premiers choix de conception que nous devons faire lors de la conception d'une application multitâche sera : *processus* ou *threads*. Chacune des approches possède son lot d'avantages et d'inconvénients.
 
 Les processus s'exécutent dans des espaces mémoires distincts. Ceci est très important : *chaque processus dispose d'une zone de mémoire totalement indépendante et protégée des autres processus.*
 
@@ -262,7 +263,7 @@ Les noms des fonctions exec sont construits avec une combinaison de suffixes, ch
 
 == Ordonnancement
 #linebreak()
-L'ordonnancement des processus est un principe fondamental de la matière. En effet, à un instant donnée, plusieurs processus peuvent être en concurrence pour l'utilisation du processeur. Il faut donc choisir quel processus sera executé et à quel moment, cette décision est prise par *l'ordonnenceur* qui lui même suit une *politique d'ordonnancement*.
+L'ordonnancement des processus est un principe fondamental de la matière. En effet, à un instant donnée, plusieurs processus peuvent être en concurrence pour l'utilisation du processeur. Il faut donc choisir quel processus sera exécuté et à quel moment, cette décision est prise par *l'ordonnanceur* qui lui même suit une *politique d'ordonnancement*.
 
 === Ordonnancement préemptif vs non préemptif
 #linebreak()
@@ -331,7 +332,7 @@ Attention au choix du quantum, s'il est trop court dans ce cas on aura un coût 
 === Exemple complet
 #linebreak()
 
-Pour illustrer ces différentes politiques d'ordonnancement nous allons prendre un exemple et appliquer chacune des politiques, nous comparerons alors celles-ci avec les différents indicateurs que nous avons énumérés précedemment.
+Pour illustrer ces différentes politiques d'ordonnancement nous allons prendre un exemple et appliquer chacune des politiques, nous comparerons alors celles-ci avec les différents indicateurs que nous avons énumérés précédemment.
 
 *Premier Arrivé, Premier Servi (FCFS):*
 #align(center)[
@@ -529,9 +530,9 @@ Le time slicing est une technique d’ordonnancement où le temps CPU est divis�
 
 • Crée l’illusion d’un parallélisme sur les systèmes mono-core.
 
-Attention tout de même dans le cas ou nous dervions changer de contexte trop souvent cela créerait un *Overhead*. Dans le cas contraire un mauvais temps de réponse est donc une impression de latence.
+Attention tout de même dans le cas ou nous devions changer de contexte trop souvent cela créerait un *Overhead*. Dans le cas contraire un mauvais temps de réponse est donc une impression de latence.
 
-Dans le cas d'un exemple concret un calcul demandant beauocup de ressources CPU bloquerait toute interface graphique, alors qu'avec le time slicing nous pourrions continuer à l'utiliser.
+Dans le cas d'un exemple concret un calcul demandant beaucoup de ressources CPU bloquerait toute interface graphique, alors qu'avec le time slicing nous pourrions continuer à l'utiliser.
 
 Sous linux nous pouvons voir cette valeur avec la commande:
 ```bash
@@ -615,7 +616,7 @@ Il existe deux modèles principaux de gestion des threads :
 
 Threads gérés entièrement par une bibliothèque au niveau de l’application (espace utilisateur). Le noyau OS n’a pas connaissance de leur existence.
 
-Ils ont pour avantage d'être très performant, car pas d'appel système. De plus, ils sont portables car implémentés par une bibliothèque donc indépendante du noyau OS.
+Ils ont pour avantage d'être très performants, car pas d'appel système. De plus, ils sont portables car implémentés par une bibliothèque donc indépendante du noyau OS.
 
 Cependant, ils manquent de parallélisme réel : en effet, un ULT bloquant bloque tous les threads du processus. De plus, le scheduleur OS ne va voir qu'un seul processus, il ne peut pas répartir les threads sur plusieurs coeurs.
 
@@ -625,7 +626,7 @@ Threads gérés directement par le système d’exploitation. Le noyau planifie 
 
 Le noyau peut planifier différents threads sur différents cœurs CPU. Un thread bloqué (e.g., sur une E/S) n’affecte pas les autres : accès direct aux services et ressources du noyau. De plus, ils bénéficient des politiques de scheduling du noyau.
 
-Cependant, la création, commutation et destructions sont plus lentes (appels système). L'API dépend souvent de l'OS et chaque thread nécéssite des structures de données dans le noyau.
+Cependant, la création, commutation et la destruction est plus lentes (appels système). L'API dépend souvent de l'OS et chaque thread nécessite des structures de données dans le noyau.
 
 #linebreak()
 
@@ -753,7 +754,7 @@ int main (){
 == Problèmes de mémoire
 #linebreak()
 
-Il faut néanmoins faire attention aux variables auutomatiques qui seraient initialisées par un thread car elles sont allouées dans la pile du thread en question, il suffit qu'un pointeur soit renvoyé sur cette valeur puisque le thread se termine (libération des ressources de sa stack), nous nous retrouverions avec une référence invalide. Ce qui représente une faille de sécurité majeure mais également un comportement indéfini lors de la lecture de la mémoire à partir de ce pointeur. La bonne solution est donc d'allouer dynamiquement dans le tas avec un malloc, ce qui nous confère une gestion sécurisée de la mémoire pointée par celui-ci.
+Il faut néanmoins faire attention aux variables automatiques qui seraient initialisées par un thread car elles sont allouées dans la pile du thread en question, il suffit qu'un pointeur soit renvoyé sur cette valeur puisque le thread se termine (libération des ressources de sa stack), nous nous retrouverions avec une référence invalide. Ce qui représente une faille de sécurité majeure mais également un comportement indéfini lors de la lecture de la mémoire à partir de ce pointeur. La bonne solution est donc d'allouer dynamiquement dans le tas avec un malloc, ce qui nous confère une gestion sécurisée de la mémoire pointée par celui-ci.
 
 #linebreak()
 
@@ -807,7 +808,7 @@ Un *système de fichiers* est la structure logique qui organise et gère le stoc
     inset: 10pt,
     table.header(
       [*Système de Fichiers*], [*Système de Gestion de Fichiers*],
-      [C'est la structure *logique*], [C'est la partie *logicielle* composante du noyeau],
+      [C'est la structure *logique*], [C'est la partie *logicielle* composante du noyau],
       [Définit comment les fichiers sont organisés (arborescence)],
       [Gère toutes les opérations:  créer, lire, supprimer..],
 
@@ -964,7 +965,7 @@ int ftruncate(int fd, off_t length);
 
 Les descripteurs de fichiers sont des entiers identifiant des fichiers / ressources ouvertes, la plage typique sous Linux est de 0 à 1024. Chaque processus possède sa propre table des descripteurs comme montré ci-dessus.
 
-Remarque : Les descripteurs peuvent égalemment représenter des :
+Remarque : Les descripteurs peuvent également représenter des :
 - Tubes (pipes)
 - Sockets réseau
 - Périphériques
@@ -1037,7 +1038,7 @@ En ce qui concerne le mode d'ouverture il est à noter que nous avons un filtrag
 - Libère les buffers d'E/S associés (cache du système de fichiers, buffer réseau).
 
 #underline[Sur la table des i-noeuds:]
-- Décremente le compteur de références.
+- Décrémente le compteur de références.
 - Finalise l'écriture des données ou métadonnées modifiées sur le disque si nécéssaire.
 - Peut libérer l'i-noeud en mémoire s'il n'est plus référencé.
 
@@ -1261,8 +1262,8 @@ Nous utilisons l'appel système `pipe()`:
 ```c
 #include <unistd.h>
 
-int tube[2]
-int pipe(int tube[2])
+int tube[2];
+int pipe(int tube[2]);
 ```
 Description : Crée un tube et retourne deux descripteurs de fichiers :
 - tube[0] : Extrémité de lecture.
@@ -1462,14 +1463,14 @@ write(fd, message, strlen (message) + 1) ;
 *#text(fill: red, "Attention : Pour les données > PIPE_BUF, les écritures peuvent être intercalées entre plusieurs processus.")*
 
 #pagebreak()
-= Segments de mémoire partagé
-Les segments de mémoire partagé permettent un partage de ressources de manière plus efficace que les tubes.
+= Segments de mémoire partagée
+Les segments de mémoire partagée permettent un partage de ressources de manière plus efficace que les tubes.
 
 Un segment est une zone mémoire mappé dans un fichier.
 
 
 
-Le segment de mémoire est *hérité lors du fork* et est *persitant* jusqu'à la suppression explicite.
+Le segment de mémoire est *hérité lors du fork* et est *persistant* jusqu'à la suppression explicite.
 
 == Utilisation en C posix
 Pour ouvrir un segment de mémoire partagée, il suffit d'utiliser shm_open
@@ -1478,11 +1479,11 @@ int shm_open (const char * nom, int oflag, mode_t mode);
 ```
 
 Le nom du segment devra toujours commencer par '/'.
-Les flags d'ouverture et les permissons (la variable mode de shm_open) sont à paramètrer selon l'utilisation du segment.
+Les flags d'ouverture et les permissons (la variable mode de shm_open) sont à paramétrer selon l'utilisation du segment.
 
 La fonction retournera soit le descripteur de fichier correspondant au segment soit -1 avec errno paramétré avec le numéro de l'erreur.
 
-Par défaut, *la taille d'un segment de mémoire partagée est nulle*. Il est donc primordiale d'utiliser ftruncate pour déclaré la taille du segment.
+Par défaut, *la taille d'un segment de mémoire partagée est nulle*. Il est donc primordial d'utiliser ftruncate pour déclaré la taille du segment.
 
 ```c
 ftruncate(int descripteur, off_t taille du segment)
@@ -1659,22 +1660,22 @@ Si on lance Programme 1 puis Programme 2, on obtient en sortie de Programme 2, `
 L'utilisation de segment de mémoire partagée induit un nouveau problème : *Les accès concurrents*
 
 Prenons deux processus sommant dans une même zone mémoire, des nombres.
-Les processus commence par lire la somme actuelle puis additionne une valeur v et remplace l'ancienne somme par la nouvelle.
-Imaginons que les deux processus lisent en même la somme actuelle lors de l'écriture
+Les processus commencent par lire la somme actuelle puis additionne une valeur v et remplace l'ancienne somme par la nouvelle.
+Imaginons que les deux processus lisent en même temps la somme actuelle lors de l'écriture
 dans la zone mémoire, il manquera une addition de v dans la somme.
 
 On défini l'*exclusion mutuelle* comme un mécanisme garantissant qu’une ressource partagée ne soit utilisée que par un seul processus à la fois.
 
 L'exclusion mutuelle concerne la gestion de l’accès concurrente à une ressource partagée, afin d’éviter les conflits ou les corruptions de données.
 
-Ce mécanisme doit respecter quatres propriétés:
+Ce mécanisme doit respecter quatre propriétés:
 1. Exclusion mutuelle : Un seul processus dans la section critique
 2. Progression : Décision en temps fini
 3. Attente bornée : Pas de famine (starvation)
 4. Indépendance des vitesses : Pas de supposition quant à la vitesse ou le nombre de processus
 
 == Sémaphore
-Une sémaphore est une solution proposé par Dijkstra en 1965. Elle se base sur un compteur et une file (FIFO)
+Un sémaphore est une solution proposé par Dijkstra en 1965. Elle se base sur un compteur et une file (FIFO)
 est défini par opération:
 - Init(val) -> initialise le compteur à la val et
 - P(sem) -> Décremente le compteur
@@ -1732,7 +1733,7 @@ Un signal est un mécanisme de communication asynchrone qui permet :
 - De lui notifier un événement
 - De forcer une action immédiate
 
-Il existe plusieurs comportement possible lors de la reception d'un signal:
+Il existe plusieurs comportements possibles lors de la reception d'un signal:
 - Ignorer le signal#footnote[(sauf SIGKILL, SIGSTOP)]
 - Exécuter l’action par défaut
 - Capturer le signal et exécuter une fonction
@@ -1758,7 +1759,7 @@ int sigismember(const sigset_t *set, int sig); // Vérifier si le signal est dan
 ```
 
 === sigprocmask
-sigprocmask permet de changer l'état d'un signal en d'autre de termes de la faire passer d'un état bloqué à non-bloqué et vice-versa.
+sigprocmask permet de changer l'état d'un signal en d'autre de termes de le faire passer d'un état bloqué à non-bloqué et vice-versa.
 
 ```c
 int sigprocmask (int how, const sigset_t *set, sigset_t *oldset);
