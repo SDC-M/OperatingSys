@@ -2,7 +2,8 @@
 #import "@preview/diagraph:0.3.3": *
 #import "@preview/codly:1.3.0": *
 #import "@preview/lilaq:0.5.0" as lq
-#import "@preview/cetz:0.4.2"
+#import "@preview/cetz:0.5.2"
+#import "@preview/cetz:0.5.2": canvas, draw
 #cetz.canvas({
   import cetz.draw: *
 })
@@ -129,8 +130,6 @@ Les appels système provoquent donc un passage du mode utilisateur au mode noyau
 #linebreak()
 
 === Les interruptions
-#linebreak()
-
 Gestion des erreurs
 - En cas d’erreur : la fonction retourne -1.
 - Le code d’erreur est stocké dans la variable globale errno.
@@ -1492,7 +1491,54 @@ ftruncate(int descripteur, off_t taille du segment)
 
 Pour pouvoir utiliser un segment de mémoire partagée comme un segment mémoire on utilise mmap. mmap permet de mapper le fichier du segment de mémoire partagée dans l'espace mémoire virtuel d'un processus.
 
-#image("img/segmem.svg")
+// #image("img/segmem.svg")
+
+#let average(..element) = {
+  let sum = 0
+  for el in element.pos() {
+    sum += el
+  }
+  return sum / element.len()
+}
+
+#align(center, 
+
+canvas(length: 1cm, {
+  import draw: *
+
+  set-style(stroke: 2pt + black)
+
+  let bottom_left = (1.5, 3.5)
+  let top_right_rect = (11.5, 5)
+  let bottom_right = (top_right_rect.at(0), bottom_left.at(1))
+
+  rect(bottom_left, top_right_rect, radius: 0.05, name: "zone")
+  content("zone", [Zone mémoire])
+  content((bottom_left.at(0), top_right_rect.at(1) + 0.2), anchor: "west", text(size: 9pt)[\@0x10])
+
+  let middle_rect = average(bottom_left.at(0), top_right_rect.at(0))
+
+  rect((0, 0), (middle_rect - 0.5, 2), radius: 0.2, name: "proc1")
+  rect((middle_rect + 0.5, 0), (2 * middle_rect, 2), radius: 0.2, name: "proc2")
+  content((3, -0.5), [Espace mémoire du processus 1])
+  content((9.5, -0.5), [Espace mémoire du processus 2])
+
+  rect((1, 0.5), (5, 1.5), radius: 0.12, name: "map1")
+  content("map1", text(size: 9pt)[Mappage])
+  rect((8, 0.5), (12, 1.5), radius: 0.12, name: "map2")
+  content("map2", text(size: 9pt)[Mappage])
+
+  content((1, 0.4), anchor: "north-west", text(size: 8pt)[\@0x42])
+  content((8, 0.4), anchor: "north-west", text(size: 8pt)[\@0x84])
+
+
+  line((1, 1.5), bottom_left, mark: (end: ">"))
+  line((5, 1.5), bottom_right, mark: (end: ">"))
+  line((8, 1.5), (bottom_left), mark: (end: ">"))
+  line((12, 1.5), (bottom_right), mark: (end: ">"))
+}))
+
+
 
 ```c
 #include <sys/mman.h>
@@ -1612,7 +1658,10 @@ Si on lance Programme 1 puis Programme 2, on obtient en sortie de Programme 2, `
 = Exclusion mutuelle
 L'utilisation de segment de mémoire partagée induit un nouveau problème : *Les accès concurrents*
 
-Prenons deux processus sommant dans une même zone mémoire, des nombres. Les processus commence par lire la somme actuelle puis additionne une valeur v et remplace l'ancienne somme par la nouvelle. Imaginons que les deux processus lisent en même la somme actuelle lors de l'écriture dans la zone mémoire, il manquera une valeur dans la somme.
+Prenons deux processus sommant dans une même zone mémoire, des nombres.
+Les processus commence par lire la somme actuelle puis additionne une valeur v et remplace l'ancienne somme par la nouvelle.
+Imaginons que les deux processus lisent en même la somme actuelle lors de l'écriture
+dans la zone mémoire, il manquera une addition de v dans la somme.
 
 On défini l'*exclusion mutuelle* comme un mécanisme garantissant qu’une ressource partagée ne soit utilisée que par un seul processus à la fois.
 
@@ -1622,7 +1671,7 @@ Ce mécanisme doit respecter quatres propriétés:
 1. Exclusion mutuelle : Un seul processus dans la section critique
 2. Progression : Décision en temps fini
 3. Attente bornée : Pas de famine (starvation)
-4. Indépendance des vitesses : Pas supposition quant à la vitesse ou le nombre de processus
+4. Indépendance des vitesses : Pas de supposition quant à la vitesse ou le nombre de processus
 
 == Sémaphore
 Une sémaphore est une solution proposé par Dijkstra en 1965. Elle se base sur un compteur et une file (FIFO)
@@ -1665,6 +1714,9 @@ int sem_close(sem_t *sem);
 int sem_unlink(const char *name);
 ```
 
+#[
+#show text: set text(color.gray, style: "italic")
+
 == Problèmes avec les sémaphore
 === Producteur-Consommateur
 === Lecteurs-Rédacteur
@@ -1672,7 +1724,7 @@ int sem_unlink(const char *name);
 === Diner des philosophes
 === Barrière de Synchronisation
 === Problème du Barbier
-
+]
 #pagebreak(weak: true)
 = Signaux
 Un signal est un mécanisme de communication asynchrone qui permet :
