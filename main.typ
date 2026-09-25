@@ -21,7 +21,7 @@
 #show: ilm.with(
   title: [Introduction aux systèmes d'exploitation],
   author: "",
-  abstract: [#emph[Ceci est un support non officiel, qui a pour but de regrouper l'ensemble des notions vues en cours d'introduction aux systèmes d'exploitation dispensé en deuxième année de licence informatique à l'UFR sciences et techniques du Madrillet par le professeur *ZIADI DJELLOUL* Il est non exhaustif et collaboratif.
+  abstract: [#emph[Ceci est un support non officiel, qui a pour but de regrouper l'ensemble des notions vues en cours d'introduction aux systèmes d'exploitation dispensé en troisième année de licence informatique à l'UFR sciences et techniques du Madrillet par le professeur *ZIADI DJELLOUL* Il est non exhaustif et collaboratif.
       Ce document est à jour pour l'année universitaire *2025-2026*. Pour toute suggestion, ouvrez une issue sur le dépôt GitHub. Merci aux contributeurs : #underline[#link("https://github.com/SDC-M/Introduction-aux-syst-mes-d-exploitation.git")] ]
     ],
   date: datetime.today(),
